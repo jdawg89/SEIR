@@ -117,6 +117,12 @@ else
   return(res)
 };
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 </head>
 <body onLoad="checkCookie()">
@@ -173,11 +179,11 @@ $(function () {
 <td valign='top'>
 <form name='mainform'> 
 <center>Parameter Values</center>
-Beta: <input type='text' name='Beta' id='alpha' size = 4 /><br/>
-Gamma: <input type='text' name='Gamma' size = 4 /><br/>
-Sigma: <input type='text' name='Sigma' size = 4 /><br/>
-Mu: <input type='text' name='Mu' size = 4 /><br/>
-Nu: <input type='text' name='Nu' size = 4 />
+$\beta$: <input type='text' name='Beta' id='alpha' size = 4 /><br/>
+$\gamma$: <input type='text' name='Gamma' size = 4 /><br/>
+$\sigma$: <input type='text' name='Sigma' size = 4 /><br/>
+$\mu$: <input type='text' name='Mu' size = 4 /><br/>
+$\nu$: <input type='text' name='Nu' size = 4 />
 <br/>
 <br/>
 <center>Initial Values</center>
@@ -203,10 +209,10 @@ The SEIR models the flows of people between four states: susceptible (S), expose
 <p><b>Instructions:</b><br/>
 The boxes on the right side of the page control the parameters of the model.  The page should load with some parameters already in the box.  Click "submit" to run the model.  The parameters can all be modified and the model re-run.  The parameters are <br>
 <table cellpadding=8 border=0>
-<tr><td>Beta</td><td>The parameter controlling how often a susceptible-infected contact results in a new exposure.</td></tr>
-<tr><td>Gamma</td><td>The rate an infected recovers and moves into the resistant phase.</td></tr>
-<tr><td>Sigma</td><td>The rate at which an exposed person becomes infective.</td></tr>
-<tr><td>Mu</td><td>The natural mortality rate (this is unrelated to disease).  This models a population of a constant size, </td></tr>
+<tr><td>$\beta$</td><td>The parameter controlling how often a susceptible-infected contact results in a new exposure.</td></tr>
+<tr><td>$\gamma$</td><td>The rate an infected recovers and moves into the resistant phase.</td></tr>
+<tr><td>$\sigma$</td><td>The rate at which an exposed person becomes infective.</td></tr>
+<tr><td>$\mu$</td><td>The natural mortality rate (this is unrelated to disease).  This models a population of a constant size, </td></tr>
 <tr><td>Initial susceptible</td><td>The number of susceptible individuals at the beginning of the model run.</td></tr>
 <tr><td>Initial exposed</td><td>The number of exposed individuals at the beginning of the model run.</td></tr>
 <tr><td>Initial infected</td><td>The number of infected individuals at the beginning of the model run.</td></tr>
