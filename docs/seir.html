@@ -192,9 +192,9 @@
 	  </tr>
 	  <tr><td>&nbsp</td><td><center>Time (days)</center></td><td>&nbsp</td></tr>
 	</table>
-	<p><b>Overview:</b><br/>
-	The SEIR models the flows of people between four states: susceptible (S), exposed (E), infected (I), and resistant (R).  Each of those variables represents the number of people in those groups.  The parameters alpha and beta partially control how fast people move from being susceptible to exposed (beta), from exposed to infected (sigma), and from infected to resistant (gamma).  This model has two additional parameters; one is the background mortality (mu) which is unaffected by disease-state, while the other is vaccination (nu).  The vaccination moves people from the susceptible to resistant directly, without becoming exposed or infected.</p>
-
+	<p><b>Overview:</b><br/><br/>
+The Susceptible-Exposed-Infected-Recovered (SEIR) model analyzes the dynamics of the spread of an epidemic. There are 4 groups or populations of people: the SUSCEPTIBLE are those that have never interacted with the pathogen (e.g. bacteria, virus, etc.) who have the potential to be infected. The EXPOSED are those that have encountered the pathogen, but are currently not contagious. In other words, these people do have the pathogen and may or may not have symptoms (depending on the disease process) but are unable to spread the pathogen to others. The INFECTED are those who have the pathogen, who may or may not have symptoms, and MAY spread the pathogen to others. Finally, the RECOVERED are those who cannot get the disease. These people may have had the disease in the past and are now currently immune, who have gotten a vaccine, or who are naturally resistant to the disease. In this model, infected individuals become recovered. 
+	
 	<p>The SEIR differs from the SIR model in the addition of a latency period.  Individuals who are exposed (E) have had contact with an infected person, but are not themselves infectious.</p>
 
 	<p><b>Instructions:</b><br/>
