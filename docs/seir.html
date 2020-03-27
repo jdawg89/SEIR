@@ -24,16 +24,16 @@
       function getInitVec() 
       {
       var res = new Array();
-      res[0] = 0.9; //beta
-      res[1] = 0.2; //gamma
-      res[2] = 0.5; //sigma
+      res[0] = 2.2/2.3; //beta
+      res[1] = 1/2.3; //gamma
+      res[2] = 1/5.2; //sigma
       res[3] = 0;   //mu
       res[4] = 0;   //nu
-      res[5] = 10;  //iSusceptible
+      res[5] = 7500000000;  //iSusceptible
       res[6] = 1;   //iExposed
       res[7] = 0;   //iInfected
       res[8] = 0;   //iRecovered
-      res[9] = 1500;//100*numberdays
+      res[9] = 30000;//100*numberdays
       return res;
       }
 
@@ -171,7 +171,7 @@
 	    <img src='population.png' alt='Population graph label'>
 	    </td>
 	    <td>
-	      <div id="placeholder" style="width:400px;height:300px"></div>
+	      <div id="placeholder" style="width:600px;height:450px"></div>
 	    </td>
 	    <td valign='top'>
 	      <form name='mainform'> 
