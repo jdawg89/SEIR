@@ -182,8 +182,8 @@
 	var d2 = valu[2];
 	var d3 = valu[3];
 	var data = [ {label:'Deaths', data:d1}, {label:'E', data:d2}, {label:'I', data:d3}];
-	$.plot($("#placeholder"), data);
-        $.plot($("#placeholder"), data);
+	$.plot($("#placeholder1"), data);
+        $.plot($("#placeholder2"), data);
 	});
       </script>
 
@@ -194,7 +194,10 @@
 	    <img src='population.png' alt='Population graph label'>
 	    </td>
 	    <td>
-	      <div id="placeholder" style="width:600px;height:450px"></div>
+	      <div id="placeholder1" style="width:300px;height:450px"></div>
+	    </td>
+            <td>
+	      <div id="placeholder2" style="width:300px;height:450px"></div>
 	    </td>
 	    <td valign='top'>
 	      <form name='mainform'> 
