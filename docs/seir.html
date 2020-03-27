@@ -12,10 +12,10 @@
       //** Function **
       function seir(x,parm)
       {
-      return([parm[3]*(x[0]+x[1]+x[2]+x[3]) - parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - parm[4]*x[0],
-              parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[3] + parm[2])*x[1], 
+      return([parm[3]*(x[0]+x[1]+x[2]+x[3]) - parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[6])*x[0],
+              parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - parm[4]*x[1], 
               parm[2]*x[1] - parm[5]*x[2], 
-              parm[1]*x[2] - parm[3]*x[3]+parm[4]*x[0]]);
+              parm[1]*x[2] - parm[4]*x[3] + parm[6]*x[0]]);
       }
     </script>
     <script type='text/javascript'>
@@ -31,13 +31,14 @@
       res[1] = 1/2.3; //RecTime, related to gamma
       res[2] = 1/5.2; //IncTime, related to sigma
       res[3] = 0;   //mu birth rate
-      res[4] = 0;   //nu background death rate 
+      res[4] = 0;   //background death rate 
       res[5] = 0;   //death rate from infection
-      res[6] = 7500000000;  //iSusceptible
-      res[7] = 1;   //iExposed
-      res[8] = 0;   //iInfected
-      res[9] = 0;   //iRecovered
-      res[10] = 30000;//100*numberdays
+      res[6] = 0;   //vaccine 
+      res[7] = 7500000000;  //iSusceptible
+      res[8] = 1;   //iExposed
+      res[9] = 0;   //iInfected
+      res[10] = 0;   //iRecovered
+      res[11] = 30000;//100*numberdays
       return res;
       }
 
@@ -87,8 +88,9 @@
       res[2] = 1/eval(form.IncTime.value);
       <!-- IncTime is the average incubation time, the time it takes for a person exposed to become infected (i.e. contagious)
       res[3] = eval(form.Mu.value);
-      res[4] = eval(form.Nu.value);
-      res[5] = eval(form.Nud.value);
+      res[4] = eval(form.Delta.value);
+      res[5] = eval(form.Deltad.value);
+      res[6] = eval(form.Nu.value);
       res[6] = eval(form.initialS.value);
       res[7] = eval(form.initialE.value);
       res[8] = eval(form.initialI.value);
@@ -119,13 +121,14 @@
       document.forms["mainform"].elements["RecTime"].value = 1/res[1];
       document.forms["mainform"].elements["IncTime"].value = 1/res[2];
       document.forms["mainform"].elements["Mu"].value = res[3];
-      document.forms["mainform"].elements["Nu"].value = res[4];
-      document.forms["mainform"].elements["Nud"].value = res[5];
-      document.forms["mainform"].elements["initialS"].value = res[6];
-      document.forms["mainform"].elements["initialE"].value = res[7];
-      document.forms["mainform"].elements["initialI"].value = res[8];
-      document.forms["mainform"].elements["initialR"].value = res[9];
-      document.forms["mainform"].elements["iters"].value = res[10]/100;
+      document.forms["mainform"].elements["Delta"].value = res[4];
+      document.forms["mainform"].elements["Deltad"].value = res[5];
+      document.forms["mainform"].elements["Nu"].value = res[6];
+      document.forms["mainform"].elements["initialS"].value = res[7];
+      document.forms["mainform"].elements["initialE"].value = res[8];
+      document.forms["mainform"].elements["initialI"].value = res[9];
+      document.forms["mainform"].elements["initialR"].value = res[10];
+      document.forms["mainform"].elements["iters"].value = res[11]/100;
       createCookie('seirck1',res,1);
       }
       return(res)
@@ -162,14 +165,15 @@
 	document.forms["mainform"].elements["RecTime"].value = 1/pv[1];
 	document.forms["mainform"].elements["IncTime"].value = 1/pv[2];
 	document.forms["mainform"].elements["Mu"].value = pv[3];
-	document.forms["mainform"].elements["Nu"].value = pv[4];
-        document.forms["mainform"].elements["Nud"].value = pv[5];
-	document.forms["mainform"].elements["initialS"].value = pv[6];
-	document.forms["mainform"].elements["initialE"].value = pv[7];
-	document.forms["mainform"].elements["initialI"].value = pv[8];
-	document.forms["mainform"].elements["initialR"].value = pv[9];
-	document.forms["mainform"].elements["iters"].value = pv[10]/100;
-	var valu = rk4(seir,[pv[0],pv[1],pv[2],pv[3],pv[4],pv[5]],.01,[0,pv[6],pv[7],pv[8],pv[9]],pv[10]);
+        document.forms["mainform"].elements["Delta"].value = pv[4];
+        document.forms["mainform"].elements["Deltad"].value = pv[5];
+	document.forms["mainform"].elements["Nu"].value = pv[6];
+	document.forms["mainform"].elements["initialS"].value = pv[7];
+	document.forms["mainform"].elements["initialE"].value = pv[8];
+	document.forms["mainform"].elements["initialI"].value = pv[9];
+	document.forms["mainform"].elements["initialR"].value = pv[10];
+	document.forms["mainform"].elements["iters"].value = pv[11]/100;
+	var valu = rk4(seir,[pv[0],pv[1],pv[2],pv[3],pv[4],pv[5],pv[6]],.01,[0,pv[7],pv[8],pv[9],pv[10]],pv[11]);
 	var d1 = valu[1];
 	var d2 = valu[2];
 	var d3 = valu[3];
@@ -195,8 +199,9 @@
 		<tr><td>Recover Time = \(1/\gamma\): </td><td><input type="text" name="RecTime" size = 4 /></td></tr>
 		<tr><td>Incubation Time = \(1/\sigma\): </td><td><input type="text" name="IncTime" size = 4 /></td></tr>
 		<tr><td>\(\mu\): </td><td><input type="text" name="Mu" size = 4 /></td></tr>
-		<tr><td>\(\nu\): </td><td><input type="text" name="Nu" size = 4 /></td></tr>
-                <tr><td>\(\nu_d\): </td><td><input type="text" name="Nud" size = 4 /></td></tr>
+                <tr><td>\(\delta\): </td><td><input type="text" name="Delta" size = 4 /></td></tr>
+		<tr><td>\(\delta_d\): </td><td><input type="text" name="Deltad" size = 4 /></td></tr>
+                <tr><td>\(\nu\): </td><td><input type="text" name="Nu" size = 4 /></td></tr>
 	      </table>
 	      <br/>
 	      <center>Initial Values</center>
