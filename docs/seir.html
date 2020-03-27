@@ -104,7 +104,7 @@
       else
       {
       res = getInitVec();
-      document.forms["mainform"].elements["R0"].value = res[0]/((res[3]*res[2]+1)*(res[3]+1/res[1]));
+      document.forms["mainform"].elements["R0"].value = res[2]/(res[3]+res[2])*res[0]/(res[3]+res[1]);
       document.forms["mainform"].elements["RecTime"].value = 1/res[1];
       document.forms["mainform"].elements["IncTime"].value = 1/res[2];
       document.forms["mainform"].elements["Mu"].value = res[3];
@@ -146,7 +146,7 @@
 	else {
 	pv = eval("["+str+"]");
 	}
-	document.forms["mainform"].elements["R0"].value = pv[0]/((pv[3]*pv[2]+1)*(pv[3]+1/pv[1]));;
+	document.forms["mainform"].elements["R0"].value = pv[2]/(pv[3]+pv[2])*pv[0]/(pv[3]+pv[1]);
 	document.forms["mainform"].elements["RecTime"].value = 1/pv[1];
 	document.forms["mainform"].elements["IncTime"].value = 1/pv[2];
 	document.forms["mainform"].elements["Mu"].value = pv[3];
