@@ -178,7 +178,10 @@
 	document.forms["mainform"].elements["initialI"].value = pv[9];
 	document.forms["mainform"].elements["initialR"].value = pv[10];
 	document.forms["mainform"].elements["iters"].value = pv[12]/100;
-	var valu = rk4(seir,[pv[0],pv[1],pv[2],pv[3],pv[4],pv[5],pv[6]],.01,[0,pv[7],pv[8],pv[9],pv[10],pv[11]],pv[12]);
+        var iters = Math.min(100000,pv[12]);
+        var dt = (pv[12]/100)/iters;
+        
+	var valu = rk4(seir,[pv[0],pv[1],pv[2],pv[3],pv[4],pv[5],pv[6]],dt,[0,pv[7],pv[8],pv[9],pv[10],pv[11]],iters);
 	var d1 = valu[5];
 	var d2 = valu[2];
 	var d3 = valu[3];
