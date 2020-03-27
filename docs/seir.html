@@ -28,19 +28,19 @@
       function getInitVec() 
       {
       var res = new Array();
-      res[0] = 2.2/2.3; //R0, related to beta, and gamma and sigma
-      res[1] = 1/2.3; //RecTime, related to gamma
-      res[2] = 1/5.2; //IncTime, related to sigma
-      res[3] = 0.0185/365;   //mu birth rate
-      res[4] = 0.0078/365;   //background death rate 
-      res[5] = 0.01/14;   //death rate from infection
+      res[0] = 2.2; //R0, related to beta, and gamma and sigma
+      res[1] = 2.3; //RecTime, related to gamma
+      res[2] = 5.2; //IncTime, related to sigma
+      res[3] = Math.log(1 + 0.0185)/365;
+      res[4] = Math.log(1 + 0.0078)/365;   //background death rate 
+      res[5] = Math.log(1 + 0.01)/14;   //death rate from infection
       res[6] = 0;   //vaccine 
       res[7] = 7500000000;  //iSusceptible
       res[8] = 1;   //iExposed
       res[9] = 0;   //iInfected
       res[10] = 0;   //iRecovered
       res[11] = 0;  //Initial dead
-      res[12] = 30000;//100*numberdays
+      res[12] = 300; //numberdays
       return res;
       }
 
@@ -84,11 +84,9 @@
       function setvals(form)
       {
       var res = new Array();
-      res[0] = (eval(form.Delta.value)*eval(form.IncTime.value)+1)*(eval(form.Delta.value)+1/eval(form.RecTime.value))*eval(form.R0.value);
-      res[1] = 1/eval(form.RecTime.value); 
-      <!-- RecTime is the average time an infected individual recovers -->
-      res[2] = 1/eval(form.IncTime.value);
-      <!-- IncTime is the average incubation time, the time it takes for a person exposed to become infected (i.e. contagious)
+      res[0] = eval(form.R0.value);
+      res[1] = eval(form.RecTime.value); 
+      res[2] = eval(form.IncTime.value);
       res[3] = eval(form.Mu.value);
       res[4] = eval(form.Delta.value);
       res[5] = eval(form.Deltad.value);
@@ -97,10 +95,8 @@
       res[8] = eval(form.initialE.value);
       res[9] = eval(form.initialI.value);
       res[10] = eval(form.initialR.value);
-      res[11] = 0; 
-        <!-- number dead -->
-      res[12] = 100*eval(form.iters.value)
-      //alert(res)
+      res[11] = 0; // number initial dead
+      res[12] = eval(form.days.value)
       createCookie('seirck1',res,1);
       };
 
@@ -121,9 +117,9 @@
       else
       {
       res = getInitVec();
-      document.forms["mainform"].elements["R0"].value = res[2]/(res[4]+res[2])*res[0]/(res[4]+res[1]);
-      document.forms["mainform"].elements["RecTime"].value = 1/res[1];
-      document.forms["mainform"].elements["IncTime"].value = 1/res[2];
+      document.forms["mainform"].elements["R0"].value = res[0];
+      document.forms["mainform"].elements["RecTime"].value = res[1];
+      document.forms["mainform"].elements["IncTime"].value = res[2];
       document.forms["mainform"].elements["Mu"].value = res[3];
       document.forms["mainform"].elements["Delta"].value = res[4];
       document.forms["mainform"].elements["Deltad"].value = res[5];
@@ -132,7 +128,7 @@
       document.forms["mainform"].elements["initialE"].value = res[8];
       document.forms["mainform"].elements["initialI"].value = res[9];
       document.forms["mainform"].elements["initialR"].value = res[10];
-      document.forms["mainform"].elements["iters"].value = res[12]/100;
+      document.forms["mainform"].elements["days"].value = res[12];
       createCookie('seirck1',res,1);
       }
       return(res)
@@ -166,9 +162,9 @@
 	else {
 	pv = eval("["+str+"]");
 	}
-	document.forms["mainform"].elements["R0"].value = pv[2]/(pv[4]+pv[2])*pv[0]/(pv[4]+pv[1]);
-	document.forms["mainform"].elements["RecTime"].value = 1/pv[1];
-	document.forms["mainform"].elements["IncTime"].value = 1/pv[2];
+	document.forms["mainform"].elements["R0"].value = pv[0];
+	document.forms["mainform"].elements["RecTime"].value = pv[1];
+	document.forms["mainform"].elements["IncTime"].value = pv[2];
 	document.forms["mainform"].elements["Mu"].value = pv[3];
         document.forms["mainform"].elements["Delta"].value = pv[4];
         document.forms["mainform"].elements["Deltad"].value = pv[5];
@@ -177,11 +173,11 @@
 	document.forms["mainform"].elements["initialE"].value = pv[8];
 	document.forms["mainform"].elements["initialI"].value = pv[9];
 	document.forms["mainform"].elements["initialR"].value = pv[10];
-	document.forms["mainform"].elements["iters"].value = pv[12]/100;
-        var iters = Math.min(100000,pv[12]);
-        var dt = (pv[12]/100)/iters;
+	document.forms["mainform"].elements["days"].value = pv[12];
+        var iters = 100*Math.min(1000,pv[12]);
+        var dt = (pv[12])/iters;
         
-	var valu = rk4(seir,[pv[0],pv[1],pv[2],pv[3],pv[4],pv[5],pv[6]],dt,[0,pv[7],pv[8],pv[9],pv[10],pv[11]],iters);
+	var valu = rk4(seir,[pv[0]*(pv[2]*pv[4]+1)*(pv[5]+1/pv[1]),1/pv[1],1/pv[2],pv[3],pv[4],pv[5],pv[6]],dt,[0,pv[7],pv[8],pv[9],pv[10],pv[11]],iters);
 	var d1 = valu[5];
 	var d2 = valu[2];
 	var d3 = valu[3];
@@ -223,7 +219,7 @@
 	      <tr><td>Recovered: </td><td><input type="text" name="initialR" size = 10 /></td></tr>
 	    </table>
 	    <br/>
-	    Days: <input type="text" name="iters" size = 6 /><br/>
+	    Days: <input type="text" name="days" size = 6 /><br/>
 	    <input type="submit" value="Submit" onclick='setvals(this.form)'/> 
               </form>
 	    </td>
@@ -264,7 +260,7 @@
 	\end{align*}
 	\]
 
-	The value \(R_0\) is known as the <it>basic reproduction number</it> and represents the expected number of new infections generated by a single case. In the SEIR model without vaccines (i.e. \(\nu = 0\)), this value is <br/>\[R_0 = \frac{\sigma}{\delta + \sigma}\frac{\beta}{\delta + \gamma},\]<br/> which degenerates to \(R_0 = \frac{\beta}{\gamma}\) when the death rate \(\delta = 0\).
+	The value \(R_0\) is known as the <it>basic reproduction number</it> and represents the expected number of new infections generated by a single case. In the SEIR model, this value is <br/>\[R_0 = \frac{\sigma}{\delta+\sigma}\frac{\beta}{\delta_d + \gamma},\]<br/> which degenerates to \(R_0 = \frac{\beta}{\gamma}\) when the death rates \(\delta = \delta_d = 0\).
 	
 	The simulation uses the fourth-order Runge-Kutta algorithm to solve it numerically, with a step size fixed at 0.01, written in JavaScript. The plotting methods are from the <a href="http://code.google.com/p/flot/">flot module.</a>  Both the ode simulation and the script in this page calling it are new, so there may still be some unanticipated bugs (I am also fairly new to the language, so my code may be inefficient or bizarre in places).  Internet Explorer may not work since it has not yet adopted the <i>canvas</i> element, which is used in plotting.</p>
 
