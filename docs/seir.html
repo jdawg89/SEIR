@@ -15,7 +15,8 @@
       return([parm[3]*(x[0]+x[1]+x[2]+x[3]) - parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[6])*x[0],
       parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[2])*x[1], 
       parm[2]*x[1] - (parm[1] + parm[5])*x[2], 
-      parm[1]*x[2] - parm[4]*x[3] + parm[6]*x[0]]);
+      parm[1]*x[2] - parm[4]*x[3] + parm[6]*x[0],
+      parm[5]*x[2]]);
       }
     </script>
     <script type='text/javascript'>
@@ -38,7 +39,8 @@
       res[8] = 1;   //iExposed
       res[9] = 0;   //iInfected
       res[10] = 0;   //iRecovered
-      res[11] = 30000;//100*numberdays
+      res[11] = 0;  //Initial dead
+      res[12] = 30000;//100*numberdays
       return res;
       }
 
@@ -95,7 +97,9 @@
       res[8] = eval(form.initialE.value);
       res[9] = eval(form.initialI.value);
       res[10] = eval(form.initialR.value);
-      res[11] = 100*eval(form.iters.value)
+      res[11] = 0; 
+        <!-- number dead -->
+      res[12] = 100*eval(form.iters.value)
       //alert(res)
       createCookie('seirck1',res,1);
       };
@@ -128,7 +132,7 @@
       document.forms["mainform"].elements["initialE"].value = res[8];
       document.forms["mainform"].elements["initialI"].value = res[9];
       document.forms["mainform"].elements["initialR"].value = res[10];
-      document.forms["mainform"].elements["iters"].value = res[11]/100;
+      document.forms["mainform"].elements["iters"].value = res[12]/100;
       createCookie('seirck1',res,1);
       }
       return(res)
@@ -172,8 +176,8 @@
 	document.forms["mainform"].elements["initialE"].value = pv[8];
 	document.forms["mainform"].elements["initialI"].value = pv[9];
 	document.forms["mainform"].elements["initialR"].value = pv[10];
-	document.forms["mainform"].elements["iters"].value = pv[11]/100;
-	var valu = rk4(seir,[pv[0],pv[1],pv[2],pv[3],pv[4],pv[5],pv[6]],.01,[0,pv[7],pv[8],pv[9],pv[10]],pv[11]);
+	document.forms["mainform"].elements["iters"].value = pv[12]/100;
+	var valu = rk4(seir,[pv[0],pv[1],pv[2],pv[3],pv[4],pv[5],pv[6]],.01,[0,pv[7],pv[8],pv[9],pv[10],pv[11]],pv[12]);
 	var d1 = valu[1];
 	var d2 = valu[2];
 	var d3 = valu[3];
