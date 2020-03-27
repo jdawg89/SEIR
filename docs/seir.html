@@ -93,6 +93,12 @@
       createCookie('seirck1',res,1);
       };
 
+      function resetform() {
+        var res = new Array();
+        res = getInitVec();
+        createCookie('seirck1',res,1);
+      }
+
       function checkCookie()
       {
       var res = new Array();
@@ -194,7 +200,8 @@
 	    <br/>
 	    Days: <input type="text" name="iters" size = 6 /><br/>
 	    <input type="submit" value="Submit" onclick='setvals(this.form)'/>
-	      </form>
+	    <input type="submit" value="Reset" onclick='resetform()'/> 
+              </form>
 	    </td>
 	  </tr>
 	  <tr><td>&nbsp</td><td><center>Time (days)</center></td><td>&nbsp</td></tr>
