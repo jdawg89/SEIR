@@ -12,8 +12,7 @@
       //** Function **
       function seir(x,parm)
       {
-      //return([parm[3]*(x[0]+x[1]+x[2]+x[3]) - parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[6])*x[0],
-      return([0,
+      return([parm[3]*(x[0]+x[1]+x[2]+x[3]) - parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[6])*x[0],
       parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[2])*x[1], 
       parm[2]*x[1] - (parm[1] + parm[5])*x[2], 
       parm[1]*x[2] - parm[4]*x[3] + parm[6]*x[0]]);
@@ -83,7 +82,7 @@
       function setvals(form)
       {
       var res = new Array();
-      res[0] = (eval(form.Mu.value)*eval(form.IncTime.value)+1)*(eval(form.Mu.value)+1/eval(form.RecTime.value))*eval(form.R0.value);
+      res[0] = (eval(form.Delta.value)*eval(form.IncTime.value)+1)*(eval(form.Delta.value)+1/eval(form.RecTime.value))*eval(form.R0.value);
       res[1] = 1/eval(form.RecTime.value); 
       <!-- RecTime is the average time an infected individual recovers -->
       res[2] = 1/eval(form.IncTime.value);
@@ -91,7 +90,6 @@
       res[3] = eval(form.Mu.value);
       res[4] = eval(form.Delta.value);
       res[5] = eval(form.Deltad.value);
-      alert(res[5]);
       res[6] = eval(form.Nu.value);
       res[7] = eval(form.initialS.value);
       res[8] = eval(form.initialE.value);
@@ -119,7 +117,7 @@
       else
       {
       res = getInitVec();
-      document.forms["mainform"].elements["R0"].value = res[2]/(res[3]+res[2])*res[0]/(res[3]+res[1]);
+      document.forms["mainform"].elements["R0"].value = res[2]/(res[4]+res[2])*res[0]/(res[4]+res[1]);
       document.forms["mainform"].elements["RecTime"].value = 1/res[1];
       document.forms["mainform"].elements["IncTime"].value = 1/res[2];
       document.forms["mainform"].elements["Mu"].value = res[3];
@@ -163,7 +161,7 @@
 	else {
 	pv = eval("["+str+"]");
 	}
-	document.forms["mainform"].elements["R0"].value = pv[2]/(pv[3]+pv[2])*pv[0]/(pv[3]+pv[1]);
+	document.forms["mainform"].elements["R0"].value = pv[2]/(pv[4]+pv[2])*pv[0]/(pv[4]+pv[1]);
 	document.forms["mainform"].elements["RecTime"].value = 1/pv[1];
 	document.forms["mainform"].elements["IncTime"].value = 1/pv[2];
 	document.forms["mainform"].elements["Mu"].value = pv[3];
