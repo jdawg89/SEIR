@@ -24,9 +24,9 @@
       function getInitVec() 
       {
       var res = new Array();
-      res[0] = 2.2/2.3; //beta
-      res[1] = 1/2.3; //gamma
-      res[2] = 1/5.2; //sigma
+      res[0] = 2.2; //R0, related to beta, and gamma and sigma
+      res[1] = 2.3; //RecTime, related to gamma
+      res[2] = 5.2; //IncTime, related to sigma
       res[3] = 0;   //mu
       res[4] = 0;   //nu
       res[5] = 7500000000;  //iSusceptible
@@ -77,9 +77,11 @@
       function setvals(form)
       {
       var res = new Array();
-      res[0] = eval(form.Beta.value);
-      res[1] = eval(form.Gamma.value);
-      res[2] = eval(form.Sigma.value);
+      res[0] = (eval(form.Mu.value)*eval(form.IncTime.value)+1)*(eval(form.Mu.value)+1/eval(form.RecTime.value))*eval(form.R0.value);
+      res[1] = 1/eval(form.RecTime.value); 
+      <!-- RecTime is the average time an infected individual recovers -->
+      res[2] = 1/eval(form.IncTime.value);
+      <!-- IncTime is the average incubation time, the time it takes for a person exposed to become infected (i.e. contagious)
       res[3] = eval(form.Mu.value);
       res[4] = eval(form.Nu.value);
       res[5] = eval(form.initialS.value);
@@ -102,9 +104,9 @@
       else
       {
       res = getInitVec();
-      document.forms["mainform"].elements["Beta"].value = res[0];
-      document.forms["mainform"].elements["Gamma"].value = res[1];
-      document.forms["mainform"].elements["Sigma"].value = res[2];
+      document.forms["mainform"].elements["R0"].value = res[0]/((res[3]*res[2]+1)*(res[3]+1/res[1]));
+      document.forms["mainform"].elements["RecTime"].value = 1/res[1];
+      document.forms["mainform"].elements["IncTime"].value = 1/res[2];
       document.forms["mainform"].elements["Mu"].value = res[3];
       document.forms["mainform"].elements["Nu"].value = res[4];
       document.forms["mainform"].elements["initialS"].value = res[5];
@@ -144,9 +146,9 @@
 	else {
 	pv = eval("["+str+"]");
 	}
-	document.forms["mainform"].elements["Beta"].value = pv[0];
-	document.forms["mainform"].elements["Gamma"].value = pv[1];
-	document.forms["mainform"].elements["Sigma"].value = pv[2];
+	document.forms["mainform"].elements["R0"].value = pv[0]/((pv[3]*pv[2]+1)*(pv[3]+1/pv[1]));;
+	document.forms["mainform"].elements["RecTime"].value = 1/pv[1];
+	document.forms["mainform"].elements["IncTime"].value = 1/pv[2];
 	document.forms["mainform"].elements["Mu"].value = pv[3];
 	document.forms["mainform"].elements["Nu"].value = pv[4];
 	document.forms["mainform"].elements["initialS"].value = pv[5];
@@ -176,18 +178,18 @@
 	    <td valign='top'>
 	      <form name='mainform'> 
 		<center>Parameter Values</center>
-		&nbsp&nbsp <table><tr><td>\(\beta\):</td><td><input type="text" name="Beta" size = 4 /></td></tr>
-		<tr><td>\(\gamma\):</td><td><input type="text" name="Gamma" size = 4 /></td></tr>
-		<tr><td>\(\sigma\):</td><td><input type="text" name="Sigma" size = 4 /></td></tr>
-		<tr><td>\(\mu\):</td><td><input type="text" name="Mu" size = 4 /></td></tr>
-		<tr><td>\(\nu\):</td><td><input type="text" name="Nu" size = 4 /></td></tr>
+		&nbsp&nbsp <table><tr><td>\(R_0\): </td><td><input type="text" name="R0" size = 4 /></td></tr>
+		<tr><td>Recover Time = \(1/\gamma\): </td><td><input type="text" name="RecTime" size = 4 /></td></tr>
+		<tr><td>Incubation Time = \(1/\sigma\): </td><td><input type="text" name="IncTime" size = 4 /></td></tr>
+		<tr><td>\(\mu\): </td><td><input type="text" name="Mu" size = 4 /></td></tr>
+		<tr><td>\(\nu\): </td><td><input type="text" name="Nu" size = 4 /></td></tr>
 	      </table>
 	      <br/>
 	      <center>Initial Values</center>
 	      &nbsp&nbsp <table><tr><td>Susceptible:</td><td><input type="text" name="initialS" size = 4 /></td></tr>
-	      <tr><td>Exposed:</td><td><input type="text" name="initialE" size = 4 /></td></tr>
-	      <tr><td> Infected: </td><td><input type="text" name="initialI" size = 4 /></td></tr>
-	      <tr><td> Recovered: </td><td><input type="text" name="initialR" size = 4 /></td></tr>
+	      <tr><td>Exposed: </td><td><input type="text" name="initialE" size = 4 /></td></tr>
+	      <tr><td>Infected: </td><td><input type="text" name="initialI" size = 4 /></td></tr>
+	      <tr><td>Recovered: </td><td><input type="text" name="initialR" size = 4 /></td></tr>
 	    </table>
 	    <br/>
 	    Days: <input type="text" name="iters" size = 6 /><br/>
