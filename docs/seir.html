@@ -12,7 +12,8 @@
       //** Function **
       function seir(x,parm)
       {
-      return([parm[3]*(x[0]+x[1]+x[2]+x[3]) - parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[6])*x[0], 
+      //return([parm[3]*(x[0]+x[1]+x[2]+x[3]) - parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[6])*x[0],
+      0,
       parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[2])*x[1], 
       parm[2]*x[1] - (parm[1] + parm[5])*x[2], 
       parm[1]*x[2] - parm[4]*x[3] + parm[6]*x[0]]);
