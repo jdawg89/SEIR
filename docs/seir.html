@@ -165,27 +165,38 @@
 	document.forms["mainform"].elements["RecTime"].value = pv[1];
 	document.forms["mainform"].elements["IncTime"].value = pv[2];
 	document.forms["mainform"].elements["Mu"].value = pv[3];
-        document.forms["mainform"].elements["Delta"].value = pv[4];
-        document.forms["mainform"].elements["Deltad"].value = pv[5];
+    document.forms["mainform"].elements["Delta"].value = pv[4];
+    document.forms["mainform"].elements["Deltad"].value = pv[5];
 	document.forms["mainform"].elements["Nu"].value = pv[6];
 	document.forms["mainform"].elements["initialS"].value = pv[7];
 	document.forms["mainform"].elements["initialE"].value = pv[8];
 	document.forms["mainform"].elements["initialI"].value = pv[9];
 	document.forms["mainform"].elements["initialR"].value = pv[10];
 	document.forms["mainform"].elements["days"].value = pv[12];
-        var iters = 100*Math.min(1000,pv[12]);
-        var dt = (pv[12])/iters;
-        var mutemp = Math.log(1 + pv[3]/100)/365;
-        var deltemp = Math.log(1 + pv[4]/100)/365;
-        var deldtemp = Math.log(1 + pv[5]/100)/14;
-	var valu = rk4(seir,[pv[0]*(pv[2]*deltemp+1)*(deldtemp+1/pv[1]),1/pv[1],1/pv[2],mutemp,deltemp,deldtemp,pv[6]],dt,[0,pv[7],pv[8],pv[9],pv[10],pv[11]],iters);
+    var iters = 100*Math.min(1000,pv[12]);
+    var dt = (pv[12])/iters;
+    var mutemp = Math.log(1 + pv[3]/100)/365;
+    var deltemp = Math.log(1 + pv[4]/100)/365;
+    var deldtemp = Math.log(1 + pv[5]/100)/14;
+	
+	var valu = rk4(seir,[pv[0]*(pv[2]*deltemp+1)*(deldtemp+1/pv[1]),
+	                     1/pv[1],
+						 1/pv[2],
+						 mutemp,
+						 deltemp,
+						 deldtemp,
+						 pv[6]],dt,[0,pv[7],pv[8],pv[9],pv[10],pv[11]],iters);
 	var d1 = valu[5];
 	var d2 = valu[2];
 	var d3 = valu[3];
+	var d4 = valu[1];
+	var d5 = valu[4];
 	var data1 = [ {label:'Deaths', data:d1, color:'black'}];
-        var data2 = [ {label:'Exposed', data:d2}, {label:'Infected', data:d3}];
+    var data2 = [ {label:'Exposed', data:d2}, {label:'Infected', data:d3}];
+	var data3 = [ {label:'Susceptible', data:d4}, {label:'Recovered', data:d5}];
 	$.plot($("#placeholder1"), data1); 
-        $.plot($("#placeholder2"), data2); 
+    $.plot($("#placeholder2"), data2); 
+	$.plot($("#placeholder3"), data3);
 	});
       </script>
 
@@ -193,25 +204,28 @@
       <table cellpadding=8 border=0>
 	<tr>
 	  <td>
-<div class='verticaltext'>Population</div>	    
+<div class='verticaltext' style="width:5px">Population</div>	    
 <!-- <img src='population.png' alt='Population graph label'> -->
 	    </td>
 	    <td>
 	      <div id="placeholder1" style="width:300px;height:450px"></div>
 	    </td>
-            <td>
+        <td>
 	      <div id="placeholder2" style="width:300px;height:450px"></div>
 	    </td>
+		<td>
+		  <div id="placeholder3" style="width:300px;height:450px"></div>
+		</td>
 	    <td valign='top'>
-	      <form name='mainform'> 
+	      <form name='mainform' style="width:400px"> 
 		<center>Parameter Values   <input type="submit" value="Reset" onclick='resetform()'/></center>
 		&nbsp&nbsp <table><tr><td>\(R_0\): </td><td><input type="text" name="R0" size = 4 /></td></tr>
 		<tr><td>Recover Time = \(1/\gamma\): </td><td><input type="text" name="RecTime" size = 4 /></td></tr>
 		<tr><td>Incubation Time = \(1/\sigma\): </td><td><input type="text" name="IncTime" size = 4 /></td></tr>
 		<tr><td>Annual Birth Rate = \(100(e^{365\mu}-1)\): </td><td><input type="text" name="Mu" size = 4 />%</td></tr>
-                <tr><td>Annual Death Rate = \(100(e^{365\delta}-1)\): </td><td><input type="text" name="Delta" size = 4 />%</td></tr>
+        <tr><td>Annual Death Rate = \(100(e^{365\delta}-1)\): </td><td><input type="text" name="Delta" size = 4 />%</td></tr>
 		<tr><td>Biweekly Disease Death Rate = \(100(e^{14\delta_d}-1)\): </td><td><input type="text" name="Deltad" size = 4 />%</td></tr>
-                <tr><td>\(\nu\): </td><td><input type="text" name="Nu" size = 4 /></td></tr>
+        <tr><td>\(\nu\): </td><td><input type="text" name="Nu" size = 4 /></td></tr>
 	      </table>
 	      <br/>
 	      <center>Initial Values</center>
@@ -226,7 +240,7 @@
               </form>
 	    </td>
 	  </tr>
-	  <tr><td>&nbsp</td><td><center>Time (days)</center></td><td><center>Time (days)</center></td></tr>
+	  <tr><td>&nbsp</td><td><center>Time (days)</center></td><td><center>Time (days)</center></td><td><center>Time (days)</center></td></tr>
 	</table>
 	<p><b>Overview:</b><br/><br/>
 	The Susceptible-Exposed-Infected-Recovered (SEIR) model analyzes the dynamics of the spread of an epidemic. There are 4 groups or populations of people: the SUSCEPTIBLE are those that have never interacted with the pathogen (e.g. bacteria, virus, etc.) who have the potential to be infected. The EXPOSED are those that have encountered the pathogen, but are currently not contagious. In other words, these people do have the pathogen and may or may not have symptoms (depending on the disease process) but are unable to spread the pathogen to others. The INFECTED are those who have the pathogen, who may or may not have symptoms, and MAY spread the pathogen to others. Finally, the RECOVERED are those who cannot get the disease. These people may have had the disease in the past and are now currently immune, who have gotten a vaccine, or who are naturally resistant to the disease. In this model, infected individuals become recovered. 
@@ -240,8 +254,8 @@
 	  <tr><td>\(\sigma\)</td><td>The rate at which an exposed person becomes infective.</td></tr>
 	  <tr><td>\(\mu\)</td><td>The natural birth rate (this is unrelated to disease). </td></tr>
 	  <tr><td>\(\delta\)</td><td>The natural death rate (this is unrelated to disease). </td></tr>
-          <tr><td>\(\delta_d\)</td><td>The death rate of infectious individuals. </td></tr>
-          <tr><td>\(\nu\)</td><td>The rate a susceptible person gets vaccinated and becomes resistant (joins the Recovered group). </td></tr>
+      <tr><td>\(\delta_d\)</td><td>The death rate of infectious individuals. </td></tr>
+      <tr><td>\(\nu\)</td><td>The rate a susceptible person gets vaccinated and becomes resistant (joins the Recovered group). </td></tr>
 	  <tr><td>Initial susceptible</td><td>The number of susceptible individuals at the beginning of the model run.</td></tr>
 	  <tr><td>Initial exposed</td><td>The number of exposed individuals at the beginning of the model run.</td></tr>
 	  <tr><td>Initial infected</td><td>The number of infected individuals at the beginning of the model run.</td></tr>
