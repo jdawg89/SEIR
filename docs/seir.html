@@ -179,68 +179,167 @@
     var deltemp = Math.log(1 + pv[4]/100)/365;
     var deldtemp = Math.log(1 + pv[5]/100)/14;
 	
-	var valu = rk4(seir,[pv[0]*(pv[2]*deltemp+1)*(deldtemp+1/pv[1]),
-	                     1/pv[1],
-						 1/pv[2],
-						 mutemp,
-						 deltemp,
-						 deldtemp,
-						 pv[6]],dt,[0,pv[7],pv[8],pv[9],pv[10],pv[11]],iters);
+	var valu = rk4(seir,[pv[0]*(pv[2]*deltemp+1)*(deldtemp+1/pv[1]), 
+	                    1/pv[1], 1/pv[2], mutemp, deltemp, deldtemp, pv[6]],
+						dt,
+						[0,pv[7],pv[8],pv[9],pv[10],pv[11]],iters);
 	var d1 = valu[5];
 	var d2 = valu[2];
 	var d3 = valu[3];
 	var d4 = valu[1];
 	var d5 = valu[4];
+	var d6 = new Array();
+	for (tt=0; tt < d4.length; tt++) {
+	   d1[tt][1] = d1[tt][1]/1000000;
+	   d2[tt][1] = d2[tt][1]/1000000;
+	   d3[tt][1] = d3[tt][1]/1000000;
+	   d4[tt][1] = d4[tt][1]/1000000;
+	   d5[tt][1] = d5[tt][1]/1000000;
+	   d6[tt] = new Array();
+	   d6[tt] = [d4[tt][0], d4[tt][1] + d2[tt][1] + d3[tt][1]+d5[tt][1]];
+	}
 	var data1 = [ {label:'Deaths', data:d1, color:'black'}];
-    var data2 = [ {label:'Exposed', data:d2}, {label:'Infected', data:d3}];
-	var data3 = [ {label:'Susceptible', data:d4}, {label:'Recovered', data:d5}];
+    var data2 = [ {label:'Exposed', data:d2, color:'red'}, {label:'Infected', data:d3, color:'green'}];
+	var data3 = [ {label:'Susceptible', data:d4, color:'yellow'}, {label:'Recovered', data:d5, color:'blue'}];
 	$.plot($("#placeholder1"), data1); 
     $.plot($("#placeholder2"), data2); 
 	$.plot($("#placeholder3"), data3);
+	$.plot($("#placeholder4"), [{label:'Total Pop', data:d6}]);
 	});
       </script>
 
 
       <table cellpadding=8 border=0>
-	<tr>
-	  <td>
-<div class='verticaltext' style="width:5px">Population</div>	    
-<!-- <img src='population.png' alt='Population graph label'> -->
-	    </td>
-	    <td>
-	      <div id="placeholder1" style="width:300px;height:450px"></div>
-	    </td>
-        <td>
-	      <div id="placeholder2" style="width:300px;height:450px"></div>
-	    </td>
-		<td>
-		  <div id="placeholder3" style="width:300px;height:450px"></div>
+		<tr>
+			<td text-align: right; vertical-align: middle>
+				<div class='verticaltext' style="width:40px"><font size=5>Population (millions)</font></div>	    
+			</td>
+			<td>
+	      <table cellpadding=12 border=5>
+		  <tr>
+		  <td>
+		    <div id="placeholder1" style="width:300px;height:200px"></div>
+	      </td>
+          <td>
+	        <div id="placeholder2" style="width:300px;height:200px"></div>
+	      </td>
+		  </tr>
+		  <tr>
+		  <td>
+		    <div id="placeholder3" style="width:300px;height:200px"></div>
+		  </td>
+		  <!-- <td>&nbsp</td> -->
+		  <td>
+		    <div id="placeholder4" style="width:300px;height:200px"></div>
+		  </td>
+		  </table>
 		</td>
 	    <td valign='top'>
 	      <form name='mainform' style="width:400px"> 
 		<center>Parameter Values   <input type="submit" value="Reset" onclick='resetform()'/></center>
-		&nbsp&nbsp <table><tr><td>\(R_0\): </td><td><input type="text" name="R0" size = 4 /></td></tr>
-		<tr><td>Recover Time = \(1/\gamma\): </td><td><input type="text" name="RecTime" size = 4 /></td></tr>
-		<tr><td>Incubation Time = \(1/\sigma\): </td><td><input type="text" name="IncTime" size = 4 /></td></tr>
-		<tr><td>Annual Birth Rate = \(100(e^{365\mu}-1)\): </td><td><input type="text" name="Mu" size = 4 />%</td></tr>
-        <tr><td>Annual Death Rate = \(100(e^{365\delta}-1)\): </td><td><input type="text" name="Delta" size = 4 />%</td></tr>
-		<tr><td>Biweekly Disease Death Rate = \(100(e^{14\delta_d}-1)\): </td><td><input type="text" name="Deltad" size = 4 />%</td></tr>
-        <tr><td>\(\nu\): </td><td><input type="text" name="Nu" size = 4 /></td></tr>
+		&nbsp&nbsp <table><tr><td>\(R_0\): </td><td><input type="text" name="R0" id="button1" size = 2 /></td></tr>
+		<tr><td>Recover Time = \(1/\gamma\): </td><td><input type="text" name="RecTime" id="button2" size = 2 /></td></tr>
+		<tr><td>Incubation Time = \(1/\sigma\): </td><td><input type="text" name="IncTime" id="button3" size = 2 /></td></tr>
+		<tr><td>Annual Birth Rate = \(100(e^{365\mu}-1)\): </td><td><input type="text" name="Mu" id="button4" size = 2 /> %</td></tr>
+        <tr><td>Annual Death Rate = \(100(e^{365\delta}-1)\): </td><td><input type="text" name="Delta" id="button5" size = 2 /> %</td></tr>
+		<tr><td>Biweekly Disease Death Rate = \(100(e^{14\delta_d}-1)\): </td><td><input type="text" name="Deltad" id="button6" size = 2 /> %</td></tr>
+        <tr><td>Vaccine rate = \(\nu\): </td><td><input type="text" name="Nu" size = 2 /></td></tr>
 	      </table>
 	      <br/>
 	      <center>Initial Values</center>
-	      &nbsp&nbsp <table><tr><td>Susceptible:</td><td><input type="text" name="initialS" size = 10 /></td></tr>
-	      <tr><td>Exposed: </td><td><input type="text" name="initialE" size = 10 /></td></tr>
-	      <tr><td>Infected: </td><td><input type="text" name="initialI" size = 10 /></td></tr>
-	      <tr><td>Recovered: </td><td><input type="text" name="initialR" size = 10 /></td></tr>
+	      &nbsp&nbsp <table><tr><td>Susceptible:</td><td><input type="text" name="initialS" id="button7" size = 10 /></td></tr>
+	      <tr><td>Exposed: </td><td><input type="text" name="initialE" id="button8" size = 10 /></td></tr>
+	      <tr><td>Infected: </td><td><input type="text" name="initialI" id="button9" size = 10 /></td></tr>
+	      <tr><td>Recovered: </td><td><input type="text" name="initialR" id="button10" size = 10 /></td></tr>
 	    </table>
 	    <br/>
-	    Days: <input type="text" name="days" size = 6 /><br/>
-	    <input type="submit" value="Submit" onclick='setvals(this.form)'/> 
+	    Days: <input type="text" name="days" id="button11" size = 6 /><br/>
+	    <input type="submit" value="Submit" id="Submit" onclick='setvals(this.form)'/> 
               </form>
+		<script>
+			(function() {
+				var temp = document.getElementById('button1');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button2');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button3');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button4');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button5');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button6');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button7');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button8');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button9');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button10');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button11');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+			}());
+		</script>
 	    </td>
 	  </tr>
-	  <tr><td>&nbsp</td><td><center>Time (days)</center></td><td><center>Time (days)</center></td><td><center>Time (days)</center></td></tr>
+	  <tr><td>&nbsp</td><td><center><font size=5>Time (days)</font></center></td></tr>
 	</table>
 	<p><b>Overview:</b><br/><br/>
 	The Susceptible-Exposed-Infected-Recovered (SEIR) model analyzes the dynamics of the spread of an epidemic. There are 4 groups or populations of people: the SUSCEPTIBLE are those that have never interacted with the pathogen (e.g. bacteria, virus, etc.) who have the potential to be infected. The EXPOSED are those that have encountered the pathogen, but are currently not contagious. In other words, these people do have the pathogen and may or may not have symptoms (depending on the disease process) but are unable to spread the pathogen to others. The INFECTED are those who have the pathogen, who may or may not have symptoms, and MAY spread the pathogen to others. Finally, the RECOVERED are those who cannot get the disease. These people may have had the disease in the past and are now currently immune, who have gotten a vaccine, or who are naturally resistant to the disease. In this model, infected individuals become recovered. 
