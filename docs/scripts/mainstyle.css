@@ -29,7 +29,6 @@ text-align:right;
 }
 div.verticaltext{
   float: left;
-  width: 5px;
   -ms-transform: rotate(-90deg); /* IE 9 */
   -webkit-transform: rotate(-90deg); /* Safari */
   transform: rotate(-90deg);
