@@ -224,7 +224,7 @@
 		  <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
 			  <td><div id="placeholder1" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
@@ -232,7 +232,7 @@
           <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
 			  <td><div id="placeholder2" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
@@ -242,7 +242,7 @@
 		  <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
 			  <td><div id="placeholder3" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
@@ -250,7 +250,7 @@
 		  <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal&nbspPopulation &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(millions)</div></td>			  
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal&nbspPopulation &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(millions)</div></td>			  
 			  <td><div id="placeholder4" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
@@ -267,17 +267,17 @@
 		<tr><td>Annual Birth Rate = \(100(e^{365\mu}-1)\): </td><td><input type="text" name="Mu" id="button4" size = 3 /> %</td></tr>
         <tr><td>Annual Death Rate = \(100(e^{365\delta}-1)\): </td><td><input type="text" name="Delta" id="button5" size = 3 /> %</td></tr>
 		<tr><td>Biweekly Disease Death Rate = \(100(e^{14\delta_d}-1)\): </td><td><input type="text" name="Deltad" id="button6" size = 3 /> %</td></tr>
-        <tr><td>Vaccine rate = \(\nu\): </td><td><input type="text" name="Nu" size = 3 /></td></tr>
+        <tr><td>Vaccine rate = \(\nu\): </td><td><input type="text" name="Nu" id="button7" size = 3 /></td></tr>
 	      </table>
 	      <br/>
 	      <center>Initial Values</center>
-	      &nbsp&nbsp <table><tr><td>Susceptible:</td><td><input type="text" name="initialS" id="button7" size = 10 /></td></tr>
-	      <tr><td>Exposed: </td><td><input type="text" name="initialE" id="button8" size = 10 /></td></tr>
-	      <tr><td>Infected: </td><td><input type="text" name="initialI" id="button9" size = 10 /></td></tr>
-	      <tr><td>Recovered: </td><td><input type="text" name="initialR" id="button10" size = 10 /></td></tr>
+	      &nbsp&nbsp <table><tr><td>Susceptible:</td><td><input type="text" name="initialS" id="button8" size = 10 /></td></tr>
+	      <tr><td>Exposed: </td><td><input type="text" name="initialE" id="button9" size = 10 /></td></tr>
+	      <tr><td>Infected: </td><td><input type="text" name="initialI" id="button10" size = 10 /></td></tr>
+	      <tr><td>Recovered: </td><td><input type="text" name="initialR" id="button11" size = 10 /></td></tr>
 	    </table>
 	    <br/>
-	    Days: <input type="text" name="days" id="button11" size = 6 /><br/>
+	    Days: <input type="text" name="days" id="button12" size = 6 /><br/>
 	    <input type="submit" value="Submit" id="Submit" onclick='setvals(this.form)'/> 
               </form>
 		<script>
@@ -353,6 +353,13 @@
 					}
 				});
 				temp = document.getElementById('button11');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button12');
 				temp.addEventListener('keypress', function(event) {
 					if (event.keyCode == 13) {
 						event.preventDefault();
