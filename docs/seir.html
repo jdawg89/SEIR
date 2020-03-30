@@ -202,15 +202,75 @@
 	   d2[tt][1] = 100*d2[tt][1]/N;
 	   d3[tt][1] = 100*d3[tt][1]/N;
 	   d4[tt][1] = 100*d4[tt][1]/N;
-	   d5[tt][1] = 100*d5[tt][1]/N;
+	   d5[tt][1] = d5[tt][1]*1000;
+	   if (tt == 0) {
+			var d1min = d1[tt][1];
+			var d1max = d1[tt][1];
+			var d2min = d2[tt][1];
+			var d2max = d2[tt][1];
+			var d3min = d3[tt][1];
+			var d3max = d3[tt][1];
+			var d4min = d4[tt][1];
+			var d4max = d4[tt][1];
+			var d5min = d5[tt][1];
+			var d5max = d5[tt][1];
+			var d6min = d6[tt][1];
+			var d6max = d6[tt][1];
+	   }
+	   else {
+		   if (d1[tt][1] < d1min) {
+			   d1min = d1[tt][1];
+		   }
+		   if (d1[tt][1] > d1max) {
+			   d1max = d1[tt][1];
+		   }
+		   if (d2[tt][1] < d2min) {
+			   d2min = d2[tt][1];
+		   }
+		   if (d2[tt][1] > d2max) {
+			   d2max = d2[tt][1];
+		   }
+		   if (d3[tt][1] < d3min) {
+			   d3min = d3[tt][1];
+		   }
+		   if (d3[tt][1] > d3max) {
+			   d3max = d3[tt][1];
+		   }
+		   if (d4[tt][1] < d4min) {
+			   d4min = d4[tt][1];
+		   }
+		   if (d4[tt][1] > d4max) {
+			   d4max = d4[tt][1];
+		   }
+		   if (d5[tt][1] < d5min) {
+			   d5min = d5[tt][1];
+		   }
+		   if (d5[tt][1] > d5max) {
+			   d5max = d5[tt][1];
+		   }
+		   if (d6[tt][1] < d6min) {
+			   d6min = d6[tt][1];
+		   }
+		   if (d6[tt][1] > d6max) {
+			   d6max = d6[tt][1];
+		   }
+	   }
 	}
-	var data1 = [ {label:'Deaths', data:d5, color:'black'}];
+	var data1 = [ {data:d5, color:'black'}];
+	var data1min = d5min;
+	var data1max = d5max;
     var data2 = [ {label:'Exposed', data:d2, color:'red'}, {label:'Infected', data:d3, color:'green'}];
+	var data2min = Math.min(d2min,d3min);
+	var data2max = Math.max(d2max,d3max);
 	var data3 = [ {label:'Susceptible', data:d1, color:'yellow'}, {label:'Recovered', data:d4, color:'blue'}];
-	$.plot($("#placeholder1"), data1); 
-    $.plot($("#placeholder2"), data2); 
-	$.plot($("#placeholder3"), data3);
-	$.plot($("#placeholder4"), [{data:d6}]);
+	var data3min = Math.min(d1min,d4min);
+	var data3max = Math.max(d1max,d4max);
+	var data4min = d6min;
+	var data4max = d6max;
+	$.plot($("#placeholder1"), data1, {yaxis: {min: data1min - 0.1*(data1max-data1min), max: data1max + 0.5*(data1max-data1min)}}); 
+    $.plot($("#placeholder2"), data2, {yaxis: {min: data2min - 0.1*(data2max-data2min), max: data2max + 0.5*(data2max-data2min), tickFormatter: (function formatter(val) {return val + "%"})}}); 
+	$.plot($("#placeholder3"), data3, {yaxis: {min: data3min - 0.1*(data3max-data3min), max: data3max + 0.5*(data3max-data3min), tickFormatter: (function formatter(val) {return val + "%"})}});
+	$.plot($("#placeholder4"), [{data:d6}], {yaxis: {min: data4min - 0.1*(data4max-data4min), max: data4max + 0.5*(data4max-data4min)}});
 	});
       </script>
 
@@ -225,7 +285,7 @@
 		    <table cellpadding=2 border=0>
 			  <tr>
 			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
-			  <td><div id="placeholder1" style="width:300px;height:200px"></div></td>
+			  <td><div id="placeholder2" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
 	      </td>
@@ -233,7 +293,7 @@
 		    <table cellpadding=2 border=0>
 			  <tr>
 			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
-			  <td><div id="placeholder2" style="width:300px;height:200px"></div></td>
+			  <td><div id="placeholder3" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
 	      </td>
@@ -242,8 +302,8 @@
 		  <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
-			  <td><div id="placeholder3" style="width:300px;height:200px"></div></td>
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal&nbspDeaths &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(thousands)</div></td>			  
+			  <td><div id="placeholder1" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
 	      </td>
