@@ -176,8 +176,8 @@
     var iters = 100*Math.min(1000,pv[12]);
     var dt = (pv[12])/iters;
     var mutemp = Math.log(1 + pv[3]/100)/365;
-    var deltemp = Math.log(1 + pv[4]/100)/365;
-    var deldtemp = Math.log(1 + pv[5]/100)/14;
+    var deltemp = -Math.log(1 - pv[4]/100)/365;
+    var deldtemp = -Math.log(1 - pv[5]/100)/14;
 	
 	var valu = rk4(seir,[pv[0]*(pv[2]*deltemp+1)*(deldtemp+1/pv[1]), 
 	                    1/pv[1], 1/pv[2], mutemp, deltemp, deldtemp, pv[6]],
@@ -451,8 +451,8 @@
 	<tr><td><center>Recovery Time \(t\)</center></td><td>The average number of days and infectious individual remains infected before recovering. The model uses \(\gamma = \frac{1}{t}\) (see below).</td></tr>
 	<tr><td><center>Incubation Time \(a\)</center></td><td>The average number of days an exposed individual remains exposed before becoming infectious. The model uses \(\sigma = \frac{1}{a}\) (see below).</td></tr>
 	<tr><td><center>Annual Birth Rate \(r_b\)</center></td><td>Percent birth rate per year. Worldwide data shows there are about 18.5 births per 1000 in one year, corresponding to a 1.85% annual birth rate. The model uses \(\mu = \frac{\ln\left(1 + \frac{r_b}{100}\right)}{365}\) (see below).</td></tr>
-	<tr><td><center>Annual Death Rate \(r_d\)</center></td><td>Percent death rate per year. Worldwide data shows there are about 7.8 deaths per 1000 in one year, corresponding to a 0.78% annual death rate. The model uses \(\delta = \frac{\ln\left(1 + \frac{r_d}{100}\right)}{365}\) (see below).</td></tr>
-	<tr><td><center>Biweekly Disease Death Rate \(r_{dz}\)</center></td><td>Percent death rate from disease in 2 weeks. The model uses \(\delta_d = \frac{\ln\left(1 + \frac{r_{dz}}{100}\right)}{14}\) (see below).</td></tr>
+	<tr><td><center>Annual Death Rate \(r_d\)</center></td><td>Percent death rate per year. Worldwide data shows there are about 7.8 deaths per 1000 in one year, corresponding to a 0.78% annual death rate. The model uses \(\delta = -\frac{\ln\left(1 - \frac{r_d}{100}\right)}{365}\) (see below).</td></tr>
+	<tr><td><center>Biweekly Disease Death Rate \(r_{dz}\)</center></td><td>Percent death rate from disease in 2 weeks. The model uses \(\delta_d = -\frac{\ln\left(1 - \frac{r_{dz}}{100}\right)}{14}\) (see below).</td></tr>
 	<tr><td><center>Vaccine Rate \(\nu\)</center></td><td>Rate of vaccinations per person per day.</td></tr>  
 	</table>
 	</p>
