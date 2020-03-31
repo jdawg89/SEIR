@@ -319,15 +319,15 @@
 		</td>
 	    <td valign='top'>
 	      <!-- <form name='mainform' style="width:400px"> -->
-		  <form name='mainform' style="width:400px">
+		  <form name='mainform' style="width:300px">
 		<center>Parameter Values   <input type="submit" value="Reset" onclick='resetform()'/></center>
-		&nbsp&nbsp <table><tr><td>\(R_0\): </td><td><input type="text" name="R0" id="button1" size = 4 /></td></tr>
-		<tr><td>Recover Time = \(1/\gamma\): </td><td><input type="text" name="RecTime" id="button2" size = 4 /></td></tr>
-		<tr><td>Incubation Time = \(1/\sigma\): </td><td><input type="text" name="IncTime" id="button3" size = 4 /></td></tr>
-		<tr><td>Annual Birth Rate = \(100(e^{365\mu}-1)\): </td><td><input type="text" name="Mu" id="button4" size = 4 /> %</td></tr>
-        <tr><td>Annual Death Rate = \(100(e^{365\delta}-1)\): </td><td><input type="text" name="Delta" id="button5" size = 4 /> %</td></tr>
-		<tr><td>Biweekly Disease Death Rate = \(100(e^{14\delta_d}-1)\): </td><td><input type="text" name="Deltad" id="button6" size = 4 /> %</td></tr>
-        <tr><td>Vaccine rate = \(\nu\): </td><td><input type="text" name="Nu" id="button7" size = 4 /></td></tr>
+		&nbsp&nbsp <table><tr><td>\(R_0\):</td><td><input type="text" name="R0" id="button1" size = 4 /></td></tr>
+		<tr><td>Recovery Time:</td><td><input type="text" name="RecTime" id="button2" size = 4 /> days</td></tr>
+		<tr><td>Incubation Time:</td><td><input type="text" name="IncTime" id="button3" size = 4 /> days</td></tr>
+		<tr><td>Birth Rate:</td><td><input type="text" name="Mu" id="button4" size = 4 /> %/year</td></tr>
+        <tr><td>Death Rate:</td><td><input type="text" name="Delta" id="button5" size = 4 /> %/year</td></tr>
+		<tr><td>Disease Death Rate:</td><td><input type="text" name="Deltad" id="button6" size = 4 /> %/14 days</td></tr>
+        <tr><td>Vaccine rate:</td><td><input type="text" name="Nu" id="button7" size = 4 /> /person/day</td></tr>
 	      </table>
 	      <br/>
 	      <center>Initial Values</center>
@@ -433,30 +433,35 @@
 	  <tr><td><center><font size=5>Time (days)</font></center></td></tr>
 	</table>
 	<p><b>Overview:</b><br/><br/>
-	The Susceptible-Exposed-Infected-Recovered (SEIR) model analyzes the dynamics of the spread of an epidemic. There are 4 groups or populations of people: the SUSCEPTIBLE are those that have never interacted with the pathogen (e.g. bacteria, virus, etc.) who have the potential to be infected. The EXPOSED are those that have encountered the pathogen, but are currently not contagious. In other words, these people do have the pathogen and may or may not have symptoms (depending on the disease process) but are unable to spread the pathogen to others. The INFECTED are those who have the pathogen, who may or may not have symptoms, and MAY spread the pathogen to others. Finally, the RECOVERED are those who cannot get the disease. These people may have had the disease in the past and are now currently immune, who have gotten a vaccine, or who are naturally resistant to the disease. In this model, infected individuals become recovered. 
-	
-
-	<p><b>Instructions:</b><br/>
-	The boxes on the right side of the page control the parameters of the model.  The page should load with some parameters already in the box.  Click "submit" to run the model.  The parameters can all be modified and the model re-run.  The parameters are <br>
-	<table cellpadding=8 border=0>
-	  <tr><td>\(\beta\)</td><td>The parameter controlling how often a susceptible-infected contact results in a new exposure.</td></tr>
-	  <tr><td>\(\gamma\)</td><td>The rate an infected recovers and moves into the resistant phase.</td></tr>
-	  <tr><td>\(\sigma\)</td><td>The rate at which an exposed person becomes infective.</td></tr>
-	  <tr><td>\(\mu\)</td><td>The natural birth rate (this is unrelated to disease). </td></tr>
-	  <tr><td>\(\delta\)</td><td>The natural death rate (this is unrelated to disease). </td></tr>
-      <tr><td>\(\delta_d\)</td><td>The death rate of infectious individuals. </td></tr>
-      <tr><td>\(\nu\)</td><td>The rate a susceptible person gets vaccinated and becomes resistant (joins the Recovered group). </td></tr>
-	  <tr><td>Initial susceptible</td><td>The number of susceptible individuals at the beginning of the model run.</td></tr>
-	  <tr><td>Initial exposed</td><td>The number of exposed individuals at the beginning of the model run.</td></tr>
-	  <tr><td>Initial infected</td><td>The number of infected individuals at the beginning of the model run.</td></tr>
-	  <tr><td>Initial recovered</td><td>The number of recovered individuals at the beginning of the model run.</td></tr>
-	  <tr><td>Days</td><td>Controls how long the model will run.</td></tr>
+	The Susceptible-Exposed-Infected-Recovered (SEIR) model analyzes the dynamics of the spread of an epidemic. 
+	There are 4 groups or populations of people:</br></br> 
+	<table cellpadding=8 border=1>
+	<tr><td>The <b><u>S</u></b>USCEPTIBLE are those that have never interacted with the pathogen (e.g. bacteria, virus, etc.) who have the potential to be infected. At birth, everyone is susceptible.</td></tr>
+	<tr><td>The <b><u>E</u></b>XPOSED are those that have encountered the pathogen, but are currently not contagious. They may or not may not be asymptomatic. A susceptible individual may become exposed when he/she interacts with an infectious individual.</td></tr>
+	<tr><td>The <b><u>I</u></b>NFECTED are those who have the pathogen and are contagious. When a suspectible meets an infectious individual, the susceptible may become exposed.</td></tr>
+	<tr><td>The <b><u>R</u></b>ECOVERED are those who have had the disease or have been vaccinated and cannot become infected again.</td></tr>
 	</table>
-	<!-- <video>  <source src="Seinfeld - 4x03-04 - The Pitch.mp4" type="video/mp4"></video> -->
-	This program runs on your computer, so some computers may run faster than others.  It is probably a good idea not to set the number iterations or the initial populations too high, since it will take longer to run.  Note that cookies must be enabled for the algorithm to function.</p>
+	</p></br>
+	
+	<p>The program above allows you to change parameters and initial population values for the model. There are seven parameters:</br></br>
+	
+	<table cellpadding=8 border=1>
+	<tr><td><center>\(R_0\)</td><td>The <u>basic reproduction number</u> that, roughly speaking, determines how many new exposures occur from one exposure, i.e., the "spreadability" of disease.
+			When \(R_0 > 1\) the number of infections will increase exponentially, until the "crowding effect" from the recovered individuals slows down the rate of exposure.</td></tr>
+	<tr><td><center>Recovery Time \(t\)</center></td><td>The average number of days and infectious individual remains infected before recovering. The model uses \(\gamma = \frac{1}{t}\) (see below).</td></tr>
+	<tr><td><center>Incubation Time \(a\)</center></td><td>The average number of days an exposed individual remains exposed before becoming infectious. The model uses \(\sigma = \frac{1}{a}\) (see below).</td></tr>
+	<tr><td><center>Annual Birth Rate \(r_b\)</center></td><td>Percent birth rate per year. Worldwide data shows there are about 18.5 births per 1000 in one year, corresponding to a 1.85% annual birth rate. The model uses \(\mu = \frac{\ln\left(1 + \frac{r_b}{100}\right)}{365}\) (see below).</td></tr>
+	<tr><td><center>Annual Death Rate \(r_d\)</center></td><td>Percent death rate per year. Worldwide data shows there are about 7.8 deaths per 1000 in one year, corresponding to a 0.78% annual death rate. The model uses \(\delta = \frac{\ln\left(1 + \frac{r_d}{100}\right)}{365}\) (see below).</td></tr>
+	<tr><td><center>Biweekly Disease Death Rate \(r_{dz}\)</center></td><td>Percent death rate from disease in 2 weeks. The model uses \(\delta_d = \frac{\ln\left(1 + \frac{r_{dz}}{100}\right)}{14}\) (see below).</td></tr>
+	<tr><td><center>Vaccine Rate \(\nu\)</center></td><td>Rate of vaccinations per person per day.</td></tr>  
+	</table>
+	</p>
+	
+	<p>The user can change the initial populations of susceptible, exposed, infected, and recovered. The user can also change the number of days (which will shift the x-axis in the graphs). Note that inputting more days can make the program run longer.</p>
 
+	<p>The "Reset" button changes all values back to the page's defaults.</p>
 	<p><b>Details:</b><br/>
-	This is an ordinary differential equation model, described by the following equation:<br/>
+	The model is a well-known differential equation model, described by the following set of equations:<br/>
 
 	\[\begin{align*}
 	\frac{dS}{dt} &= \mu N - \beta\frac{SI}{N} - (\delta + \nu) S \\
@@ -466,10 +471,13 @@
 	N &= S + E + I + R
 	\end{align*}
 	\]
-
-	The value \(R_0\) is known as the <it>basic reproduction number</it> and represents the expected number of new infections generated by a single case. In the SEIR model, this value is <br/>\[R_0 = \frac{\sigma}{\delta+\sigma}\frac{\beta}{\delta_d + \gamma},\]<br/> which degenerates to \(R_0 = \frac{\beta}{\gamma}\) when the death rates \(\delta = \delta_d = 0\).
+	The value \(R_0\) is known as the <it>basic reproduction number</it> and represents the expected number of new infections generated by a single case. In the SEIR model, this value is <br/>\[R_0 = \frac{\sigma}{\delta+\sigma}\frac{\beta}{\delta_d + \gamma},\]<br/> which degenerates to \(R_0 = \frac{\beta}{\gamma}\) when the death rates \(\delta = \delta_d = 0\).</p>
 	
-	The simulation uses the fourth-order Runge-Kutta algorithm to solve it numerically, with a step size fixed at 0.01, written in JavaScript. The plotting methods are from the <a href="http://code.google.com/p/flot/">flot module.</a>  Both the ode simulation and the script in this page calling it are new, so there may still be some unanticipated bugs (I am also fairly new to the language, so my code may be inefficient or bizarre in places).  Internet Explorer may not work since it has not yet adopted the <i>canvas</i> element, which is used in plotting.</p>
-
+	<p>The program uses a fourth-order Runge-Kutta method to simulate the model, with a step size fixed at 0.01, written in JavaScript. 
+	Many thanks goes to Dr. Hans Nesse from ASU, whose <a href='http://www.public.asu.edu/~hnesse/classes/seir.html'>website</a> provided much source code that was used (with revisions) for this page. 
+	The plotting methods are from the <a href="http://code.google.com/p/flot/">flot module.</a>  
+	</p>
+	
+	Note that cookies must be enabled for the algorithm to function.</p>
       </body>
     </html>
