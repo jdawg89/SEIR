@@ -6,10 +6,8 @@
     <script language="javascript" type="text/javascript" src="scripts/flot/jquery.js"></script>
     <script language="javascript" type="text/javascript" src="scripts/flot/jquery.flot.js"> </script>
     <script language="javascript" type="text/javascript" src="scripts/odesim.js"> </script>
-    <!--[if IE]><script language="javascript" type="text/javascript" src="scripts/flot/excanvas.js"> </script><![endif]-->
 
     <script type="text/javascript">
-      //** Function **
       function seir(x,parm)
       {
       return([parm[3]*(x[0]+x[1]+x[2]+x[3]) - parm[0]*x[2]*x[0]/(x[0]+x[1]+x[2]+x[3]) - (parm[4] + parm[6])*x[0],
@@ -284,7 +282,7 @@
 		  <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Population&nbsp;%</div></td>			  
 			  <td><div id="placeholder2" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
@@ -292,7 +290,7 @@
           <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPopulation&nbsp%</div></td>			  
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Population&nbsp;%</div></td>			  
 			  <td><div id="placeholder3" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
@@ -302,7 +300,7 @@
 		  <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal&nbspDeaths &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(thousands)</div></td>			  
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total&nbsp;Deaths &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(thousands)</div></td>			  
 			  <td><div id="placeholder1" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
@@ -310,7 +308,7 @@
 		  <td>
 		    <table cellpadding=2 border=0>
 			  <tr>
-			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal&nbspPopulation &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp(millions)</div></td>			  
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total&nbsp;Population &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(millions)</div></td>			  
 			  <td><div id="placeholder4" style="width:300px;height:200px"></div></td>
 			  </tr>
 			</table>
@@ -321,7 +319,7 @@
 	      <!-- <form name='mainform' style="width:400px"> -->
 		  <form name='mainform' style="width:300px">
 		<center>Parameter Values   <input type="submit" value="Reset" onclick='resetform()'/></center>
-		&nbsp&nbsp <table><tr><td>\(R_0\):</td><td><input type="text" name="R0" id="button1" size = 4 /></td></tr>
+		&nbsp;&nbsp; <table><tr><td>\(R_0\):</td><td><input type="text" name="R0" id="button1" size = 4 /></td></tr>
 		<tr><td>Recovery Time:</td><td><input type="text" name="RecTime" id="button2" size = 4 /> days</td></tr>
 		<tr><td>Incubation Time:</td><td><input type="text" name="IncTime" id="button3" size = 4 /> days</td></tr>
 		<tr><td>Birth Rate:</td><td><input type="text" name="Mu" id="button4" size = 4 /> %/year</td></tr>
@@ -331,7 +329,7 @@
 	      </table>
 	      <br/>
 	      <center>Initial Values</center>
-	      &nbsp&nbsp <table><tr><td>Susceptible:</td><td><input type="text" name="initialS" id="button8" size = 10 /></td></tr>
+	      &nbsp;&nbsp;<table><tr><td>Susceptible:</td><td><input type="text" name="initialS" id="button8" size = 10 /></td></tr>
 	      <tr><td>Exposed: </td><td><input type="text" name="initialE" id="button9" size = 10 /></td></tr>
 	      <tr><td>Infected: </td><td><input type="text" name="initialI" id="button10" size = 10 /></td></tr>
 	      <tr><td>Recovered: </td><td><input type="text" name="initialR" id="button11" size = 10 /></td></tr>
@@ -440,13 +438,11 @@
 	<tr><td>The <b><u>E</u></b>XPOSED are those that have encountered the pathogen, but are currently not contagious. They may or not may not be asymptomatic. A susceptible individual may become exposed when he/she interacts with an infectious individual.</td></tr>
 	<tr><td>The <b><u>I</u></b>NFECTED are those who have the pathogen and are contagious. When a suspectible meets an infectious individual, the susceptible may become exposed.</td></tr>
 	<tr><td>The <b><u>R</u></b>ECOVERED are those who have had the disease or have been vaccinated and cannot become infected again.</td></tr>
-	</table>
-	</p></br>
+	</table></p></br>
 	
 	<p>The program above allows the user to change parameters and initial population values for the model. There are seven parameters:</br></br>
-	
 	<table cellpadding=8 border=1>
-	<tr><td><center>\(R_0\)</td><td>The <u>basic reproduction number</u> that, roughly speaking, determines how many new exposures occur from one exposure, i.e., the "spreadability" of disease.
+	<tr><td><center>\(R_0\)</center></td><td>The <u>basic reproduction number</u> that, roughly speaking, determines how many new exposures occur from one exposure, i.e., the "spreadability" of disease.
 			When \(R_0 > 1\) the number of infections will increase exponentially, until the "crowding effect" from the recovered individuals slows down the rate of exposure.</td></tr>
 	<tr><td><center>Recovery Time \(t\)</center></td><td>The average number of days an infectious individual remains infected before recovering. The model uses \(\gamma = \frac{1}{t}\) (see below).</td></tr>
 	<tr><td><center>Incubation Time \(a\)</center></td><td>The average number of days an exposed individual remains exposed before becoming infectious. The model uses \(\sigma = \frac{1}{a}\) (see below).</td></tr>
@@ -471,13 +467,13 @@
 	N &= S + E + I + R.
 	\end{align*}
 	\]
-	The value \(R_0\) is known as the <it>basic reproduction number</it> and represents the expected number of new infections generated by a single case. In the SEIR model, this value is <br/>\[R_0 = \frac{\sigma}{\delta+\sigma}\frac{\beta}{\delta_d + \gamma},\]<br/> which degenerates to \(R_0 = \frac{\beta}{\gamma}\) when the death rates \(\delta = \delta_d = 0\).</p>
+	The value \(R_0\) is known as the <i>basic reproduction number</i> and represents the expected number of new infections generated by a single case. In the SEIR model, this value is <br/>\[R_0 = \frac{\sigma}{\delta+\sigma}\frac{\beta}{\delta_d + \gamma},\]<br/> which degenerates to \(R_0 = \frac{\beta}{\gamma}\) when the death rates \(\delta = \delta_d = 0\).</p>
 	
 	<p>The program uses a fourth-order Runge-Kutta method to simulate the model, with a step size fixed at 0.01, written in JavaScript. 
 	Many thanks goes to Dr. Hans Nesse from ASU, whose <a href='http://www.public.asu.edu/~hnesse/classes/seir.html'>website</a> provided much source code that was used (with revisions) for this page. 
 	The plotting methods are from the <a href="http://code.google.com/p/flot/">flot module.</a>  
 	</p>
 	
-	Note that cookies must be enabled for the algorithm to function.</p>
+	<p>Note that cookies must be enabled for the algorithm to function.</p>
       </body>
     </html>
