@@ -1,1 +1,446 @@
-jkjfdf
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>SEIR Model</title>
+    <link rel="stylesheet" type="text/css" href="scripts/mainstyle.css" />
+    <script language="javascript" type="text/javascript" src="scripts/flot/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="scripts/flot/jquery.flot.js"> </script>
+    <script language="javascript" type="text/javascript" src="scripts/odesim.js"> </script>
+
+    <script type="text/javascript">
+      function seir(x,parm)
+      {
+      return([parm[2]*(x[0]+x[1]+x[2]) - parm[0]*x[1]*x[0]/(x[0]+x[1]+x[2]) - (parm[5] + parm[3])*x[0],
+      parm[0]*x[1]*x[0]/(x[0]+x[1]+x[2]) - (parm[1] + parm[4])*x[1], 
+      parm[1]*x[1] + parm[5]*x[0] - parm[3]*x[2], 
+      parm[4]*x[1]]);
+      }
+      // parm[0] = beta, parm[1] = recovery time, parm[2] = birth rate, parm[3] = death rate, 
+      //parm[4] = dz death rate, parm[5] = vaccine rate
+    </script>
+    <script type='text/javascript'>
+      function testload()
+      {
+      alert('page loaded again');
+      };
+
+      function getInitVec() 
+      {
+      var res = new Array();
+      res[0] = 2.2; //R0, related to beta, and gamma and sigma
+      res[1] = 2.3; //RecTime, related to gamma
+      res[3] = 1.85; //Math.log(1 + 0.0185)/365; 
+      res[4] = 0.78; //Math.log(1 + 0.0078)/365;   
+      res[5] = 1; //Math.log(1 + 0.01)/14;   //death rate from infection
+      res[6] = 0;   //vaccine 
+      res[7] = 7500000000;  //iSusceptible
+      res[8] = 1;   //iInfected
+      res[10] = 0;   //iRecovered
+      res[11] = 0;  //Initial dead
+      res[12] = 300; //numberdays
+      return res;
+      }
+
+      function getCookie(c_name)
+      {
+      if (document.cookie.length>0)
+      {
+      c_start=document.cookie.indexOf(c_name + "=");
+      if (c_start!=-1)
+      {
+      c_start=c_start + c_name.length+1;
+      c_end=document.cookie.indexOf(";",c_start);
+      if (c_end==-1) c_end=document.cookie.length;
+      return unescape(document.cookie.substring(c_start,c_end));
+      }
+      }
+      return "";
+      }
+
+      function setCookie(c_name,value,expiredays)
+      {
+      var exdate=new Date();
+      exdate.setDate(exdate.getDate()+expiredays);
+      document.cookie = "username=John Doe; path=/;";
+      <!-- document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : "; expires="+exdate.toGMTString()); -->
+      <!-- alert(c_name+ "=" +escape(value)+((expiredays==null) ? "" : "; expires="+exdate.toGMTString())); -->
+      <!-- alert(document.cookie.length); -->
+      }
+
+      function createCookie(name,value,days) {
+      if (days) {
+      var date = new Date();
+      date.setTime(date.getTime()+(days*24*60*60*1000));
+      var expires = "; expires="+date.toGMTString();
+      }
+      else var expires = "";
+      document.cookie = name+"="+value+expires+"; path=/;";
+      <!-- alert(document.cookie.length); -->
+      }
+
+      function setvals(form)
+      {
+      var res = new Array();
+      res[0] = eval(form.R0.value);
+      res[1] = eval(form.RecTime.value); 
+      res[2] = eval(form.Mu.value);
+      res[3] = eval(form.Delta.value);
+      res[4] = eval(form.Deltad.value);
+      res[5] = eval(form.Nu.value);
+      res[6] = eval(form.initialS.value);
+      res[7] = eval(form.initialI.value);
+      res[8] = eval(form.initialR.value);
+      res[9] = 0; // number initial dead
+      res[10] = eval(form.days.value)
+      createCookie('seirck1',res,1);
+      };
+
+      function resetform() {
+        var res = new Array();
+        res = getInitVec();
+        createCookie('seirck1',res,1);
+      }
+
+      function checkCookie()
+      {
+      var res = new Array();
+      val=getCookie('seirck1');
+      if (val!=null && val!="")
+      {
+      res = val;
+      }
+      else
+      {
+      res = getInitVec();
+      document.forms["mainform"].elements["R0"].value = res[0];
+      document.forms["mainform"].elements["RecTime"].value = res[1];
+      document.forms["mainform"].elements["Mu"].value = res[2];
+      document.forms["mainform"].elements["Delta"].value = res[3];
+      document.forms["mainform"].elements["Deltad"].value = res[4];
+      document.forms["mainform"].elements["Nu"].value = res[5];
+      document.forms["mainform"].elements["initialS"].value = res[6];
+      document.forms["mainform"].elements["initialI"].value = res[7];
+      document.forms["mainform"].elements["initialR"].value = res[8];
+      document.forms["mainform"].elements["days"].value = res[10];
+      createCookie('seirck1',res,1);
+      }
+      return(res)
+      };
+    </script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+  </head>
+  <body onLoad="checkCookie()">
+    <center>
+      <div class="header">
+	<div class='hans'>Julian Landaw - SEIR Model</div><br>
+	<hr>
+	  <!-- <div class='navlinks'> -->
+	    <a href='index.html'>My SEIR Homepage</a>
+	  <!-- </div> -->
+	</div>
+      </center></br></br></br>
+
+      <script id="source" language="javascript" type="text/javascript">
+	<!-- $(function () { -->
+        $(document).ready(function() {
+	str = getCookie('seirck1');
+	if (document.cookie.length < 1) {
+	pv = getInitVec();
+	}
+	else {
+	pv = eval("["+str+"]");
+	}
+	document.forms["mainform"].elements["R0"].value = pv[0];
+	document.forms["mainform"].elements["RecTime"].value = pv[1];
+	document.forms["mainform"].elements["Mu"].value = pv[2];
+    document.forms["mainform"].elements["Delta"].value = pv[3];
+    document.forms["mainform"].elements["Deltad"].value = pv[4];
+	document.forms["mainform"].elements["Nu"].value = pv[5];
+	document.forms["mainform"].elements["initialS"].value = pv[6];
+	document.forms["mainform"].elements["initialI"].value = pv[7];
+	document.forms["mainform"].elements["initialR"].value = pv[8];
+	document.forms["mainform"].elements["days"].value = pv[10];
+    var iters = 100*Math.min(1000,pv[10]);
+    var dt = (pv[12])/iters;
+    var mutemp = Math.log(1 + pv[2]/100)/365;
+    var deltemp = -Math.log(1 - pv[3]/100)/365;
+    var deldtemp = -Math.log(1 - pv[4]/100)/14;
+	
+	var valu = rk4(seir,[pv[0]*pv[1], 
+	                    1/pv[1], mutemp, deltemp, deldtemp, pv[5]],
+						dt,
+						[0,pv[6],pv[7],pv[8],pv[9]],iters);
+	var d1 = valu[1];
+	var d2 = valu[2];
+	var d3 = valu[3];
+	var d4 = valu[4];
+	var d5 = new Array();
+	for (tt=0; tt < d4.length; tt++) {
+	   d1[tt][1] = d1[tt][1]/1000000; //convert to millions of people
+	   d2[tt][1] = d2[tt][1]/1000000;
+	   d3[tt][1] = d3[tt][1]/1000000;
+	   d4[tt][1] = d4[tt][1]/1000000;
+	   d5[tt] = new Array();
+	   d5[tt] = [d1[tt][0], d1[tt][1] + d2[tt][1] + d3[tt][1]];
+	   N = d1[tt][1] + d2[tt][1] + d3[tt][1];
+	   d1[tt][1] = 100*d1[tt][1]/N; //convert to millions of people
+	   d2[tt][1] = 100*d2[tt][1]/N;
+	   d3[tt][1] = 100*d3[tt][1]/N;
+	   d4[tt][1] = 1000*d4[tt][1];
+	   if (tt == 0) {
+			var d1min = d1[tt][1];
+			var d1max = d1[tt][1];
+			var d2min = d2[tt][1];
+			var d2max = d2[tt][1];
+			var d3min = d3[tt][1];
+			var d3max = d3[tt][1];
+			var d4min = d4[tt][1];
+			var d4max = d4[tt][1];
+			var d5min = d5[tt][1];
+			var d5max = d5[tt][1];
+	   }
+	   else {
+		   if (d1[tt][1] < d1min) {
+			   d1min = d1[tt][1];
+		   }
+		   if (d1[tt][1] > d1max) {
+			   d1max = d1[tt][1];
+		   }
+		   if (d2[tt][1] < d2min) {
+			   d2min = d2[tt][1];
+		   }
+		   if (d2[tt][1] > d2max) {
+			   d2max = d2[tt][1];
+		   }
+		   if (d3[tt][1] < d3min) {
+			   d3min = d3[tt][1];
+		   }
+		   if (d3[tt][1] > d3max) {
+			   d3max = d3[tt][1];
+		   }
+		   if (d4[tt][1] < d4min) {
+			   d4min = d4[tt][1];
+		   }
+		   if (d4[tt][1] > d4max) {
+			   d4max = d4[tt][1];
+		   }
+		   if (d5[tt][1] < d5min) {
+			   d5min = d5[tt][1];
+		   }
+		   if (d5[tt][1] > d5max) {
+			   d5max = d5[tt][1];
+		   }
+	   }
+	}
+  var data1 = [ {label:'Infected', data:d2, color:'red'}];
+    var data2 = [ {label:'Suspectible', data:d1, color:'yellow'}, {label:'Recovered', data:d3, color:'blue'}];
+    var data3 = [ {label:'Deaths', data:d4, color:'black'}];
+    var data4 = [ {label:'Total Population', data:d5} ];
+	var data1min = d2min;
+	var data1max = d2max;
+	var data2min = Math.min(d1min,d3min);
+	var data2max = Math.max(d1max,d3max);
+	var data3min = d4min;
+	var data3max = d4max;
+	var data4min = d5min;
+	var data4max = d5max;
+	$.plot($("#placeholder1"), data1, {yaxis: {min: data1min - 0.1*(data1max-data1min), max: data1max + 0.5*(data1max-data1min)}}); 
+    $.plot($("#placeholder2"), data2, {yaxis: {min: data2min - 0.1*(data2max-data2min), max: data2max + 0.5*(data2max-data2min), tickFormatter: (function formatter(val) {return val + "%"})}}); 
+	$.plot($("#placeholder3"), data3, {yaxis: {min: data3min - 0.1*(data3max-data3min), max: data3max + 0.5*(data3max-data3min), tickFormatter: (function formatter(val) {return val + "%"})}});
+	$.plot($("#placeholder4"), data4, {yaxis: {min: data4min - 0.1*(data4max-data4min), max: data4max + 0.5*(data4max-data4min)}});
+	});
+      </script>
+
+
+      <table cellpadding=8 border=0>
+		<tr>
+			
+			<td>
+	      <table cellpadding=12 border=5>
+		  <tr>
+		  <td>
+		    <table cellpadding=2 border=0>
+			  <tr>
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Population&nbsp;%</div></td>			  
+			  <td><div id="placeholder2" style="width:300px;height:200px"></div></td>
+			  </tr>
+			</table>
+	      </td>
+          <td>
+		    <table cellpadding=2 border=0>
+			  <tr>
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Population&nbsp;%</div></td>			  
+			  <td><div id="placeholder3" style="width:300px;height:200px"></div></td>
+			  </tr>
+			</table>
+	      </td>
+		  </tr>
+		  <tr>
+		  <td>
+		    <table cellpadding=2 border=0>
+			  <tr>
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total&nbsp;Deaths &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(thousands)</div></td>			  
+			  <td><div id="placeholder1" style="width:300px;height:200px"></div></td>
+			  </tr>
+			</table>
+	      </td>
+		  <td>
+		    <table cellpadding=2 border=0>
+			  <tr>
+			  <td valign=bottom><div class='verticaltext' style="width:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total&nbsp;Population &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(millions)</div></td>			  
+			  <td><div id="placeholder4" style="width:300px;height:200px"></div></td>
+			  </tr>
+			</table>
+	      </td>
+		  </table>
+		</td>
+	    <td valign='top'>
+	      <!-- <form name='mainform' style="width:400px"> -->
+		  <form name='mainform' style="width:300px">
+		<center>Parameter Values   <input type="submit" value="Reset" onclick='resetform()'/></center>
+		&nbsp;&nbsp; <table><tr><td>\(R_0\):</td><td><input type="text" name="R0" id="button1" size = 4 /></td></tr>
+		<tr><td>Recovery Time:</td><td><input type="text" name="RecTime" id="button2" size = 4 /> days</td></tr>
+		<tr><td>Birth Rate:</td><td><input type="text" name="Mu" id="button3" size = 4 /> %/year</td></tr>
+        <tr><td>Death Rate:</td><td><input type="text" name="Delta" id="button4" size = 4 /> %/year</td></tr>
+		<tr><td>Disease Death Rate:</td><td><input type="text" name="Deltad" id="button5" size = 4 /> %/14 days</td></tr>
+        <tr><td>Vaccine rate:</td><td><input type="text" name="Nu" id="button6" size = 4 /> /person/day</td></tr>
+	      </table>
+	      <br/>
+	      <center>Initial Values</center>
+	      &nbsp;&nbsp;<table><tr><td>Susceptible:</td><td><input type="text" name="initialS" id="button7" size = 10 /></td></tr>
+	      <tr><td>Exposed: </td><td><input type="text" name="initialI" id="button8" size = 10 /></td></tr>
+	      <tr><td>Infected: </td><td><input type="text" name="initialR" id="button9" size = 10 /></td></tr>
+	    </table>
+	    <br/>
+	    Days: <input type="text" name="days" id="button10" size = 6 /><br/>
+	    <input type="submit" value="Submit" id="Submit" onclick='setvals(this.form)'/> 
+              </form>
+		<script>
+			(function() {
+				var temp = document.getElementById('button1');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button2');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button3');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button4');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button5');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button6');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button7');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button8');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button9');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+				temp = document.getElementById('button10');
+				temp.addEventListener('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+						document.getElementById('Submit').click();
+					}
+				});
+			}());
+		</script>
+	    </td>
+	  </tr>
+	  <tr><td><center><font size=5>Time (days)</font></center></td></tr>
+	</table>
+	<p><b>Overview:</b><br/><br/>
+	The Susceptible-Exposed-Infected-Recovered (SEIR) model analyzes the dynamics of the spread of an epidemic. 
+	There are 4 groups or populations of people:</br></br> 
+	<table cellpadding=8 border=1>
+	<tr><td>The <b><u>S</u></b>USCEPTIBLE are those that have never interacted with the pathogen (e.g. bacteria, virus, etc.) who have the potential to be infected. At birth, everyone is susceptible.</td></tr>
+	<tr><td>The <b><u>E</u></b>XPOSED are those that have encountered the pathogen, but are currently not contagious. They may or not may not be asymptomatic. A susceptible individual may become exposed when he/she interacts with an infectious individual.</td></tr>
+	<tr><td>The <b><u>I</u></b>NFECTED are those who have the pathogen and are contagious. When a suspectible meets an infectious individual, the susceptible may become exposed.</td></tr>
+	<tr><td>The <b><u>R</u></b>ECOVERED are those who have had the disease or have been vaccinated and cannot become infected again.</td></tr>
+	</table></p></br>
+	
+	<p>The program above allows the user to change parameters and initial population values for the model. There are seven parameters:</br></br>
+	<table cellpadding=8 border=1>
+	<tr><td><center>\(R_0\)</center></td><td>The <u>basic reproduction number</u> that, roughly speaking, determines how many new exposures occur from one exposure, i.e., the "spreadability" of disease.
+			When \(R_0 > 1\) the number of infections will increase exponentially, until the "crowding effect" from the recovered individuals slows down the rate of exposure.</td></tr>
+	<tr><td><center>Recovery Time \(t\)</center></td><td>The average number of days an infectious individual remains infected before recovering. The model uses \(\gamma = \frac{1}{t}\) (see below).</td></tr>
+	<tr><td><center>Incubation Time \(a\)</center></td><td>The average number of days an exposed individual remains exposed before becoming infectious. The model uses \(\sigma = \frac{1}{a}\) (see below).</td></tr>
+	<tr><td><center>Annual Birth Rate \(r_b\)</center></td><td>Percent birth rate per year. Worldwide data shows there are about 18.5 births per 1000 in one year, corresponding to a 1.85% annual birth rate. The model uses \(\mu = \frac{\ln\left(1 + \frac{r_b}{100}\right)}{365}\) (see below).</td></tr>
+	<tr><td><center>Annual Death Rate \(r_d\)</center></td><td>Percent death rate per year. Worldwide data shows there are about 7.8 deaths per 1000 in one year, corresponding to a 0.78% annual death rate. The model uses \(\delta = -\frac{\ln\left(1 - \frac{r_d}{100}\right)}{365}\) (see below).</td></tr>
+	<tr><td><center>Biweekly Disease Death Rate \(r_{dz}\)</center></td><td>Percent death rate from disease in 2 weeks. The model uses \(\delta_d = -\frac{\ln\left(1 - \frac{r_{dz}}{100}\right)}{14}\) (see below).</td></tr>
+	<tr><td><center>Vaccine Rate \(\nu\)</center></td><td>Rate of vaccinations per person per day.</td></tr>  
+	</table>
+	</p>
+	
+	<p>The user can change the initial populations of susceptible, exposed, infected, and recovered. The user can also change the number of days (which will shift the x-axis in the graphs). Note that inputting more days can make the program run longer.</p>
+
+	<p>The "Reset" button changes all values back to the page's defaults.</p>
+	<p><b>Details:</b><br/>
+	The model is a well-known differential equation model, described by the following set of equations:<br/>
+
+	\[\begin{align*}
+	\frac{dS}{dt} &= \mu N - \beta\frac{SI}{N} - (\delta + \nu) S \\
+	\frac{dE}{dt} &= \beta\frac{SI}{N} - (\delta + \sigma)E \\
+	\frac{dI}{dt} &= \sigma E - (\delta_d + \gamma)I \\
+	\frac{dR}{dt} &= \gamma I - \delta R + \nu S \\
+	N &= S + E + I + R.
+	\end{align*}
+	\]
+	The value \(R_0\) is known as the <i>basic reproduction number</i> and represents the expected number of new infections generated by a single case. In the SEIR model, this value is <br/>\[R_0 = \frac{\sigma}{\delta+\sigma}\frac{\beta}{\delta_d + \gamma},\]<br/> which degenerates to \(R_0 = \frac{\beta}{\gamma}\) when the death rates \(\delta = \delta_d = 0\).</p>
+	
+	<p>The program uses a fourth-order Runge-Kutta method to simulate the model, with a step size fixed at 0.01, written in JavaScript. 
+	Many thanks goes to Dr. Hans Nesse from ASU, whose <a href='http://www.public.asu.edu/~hnesse/classes/seir.html'>website</a> provided much source code that was used (with revisions) for this page. 
+	The plotting methods are from the <a href="http://code.google.com/p/flot/">flot module.</a>  
+	</p>
+	
+	<p>Note that cookies must be enabled for the algorithm to function.</p>
+      </body>
+    </html>
