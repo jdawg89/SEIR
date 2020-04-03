@@ -92,19 +92,19 @@
       res[8] = eval(form.initialR.value);
       res[9] = 0; // number initial dead
       res[10] = eval(form.days.value)
-      createCookie('seirck1',res,1);
+      createCookie('sirck1',res,1);
       };
 
       function resetform() {
         var res = new Array();
         res = getInitVec();
-        createCookie('seirck1',res,1);
+        createCookie('sirck1',res,1);
       }
 
       function checkCookie()
       {
       var res = new Array();
-      val=getCookie('seirck1');
+      val=getCookie('sirck1');
       if (val!=null && val!="")
       {
       res = val;
@@ -122,7 +122,7 @@
       document.forms["mainform"].elements["initialI"].value = res[7];
       document.forms["mainform"].elements["initialR"].value = res[8];
       document.forms["mainform"].elements["days"].value = res[10];
-      createCookie('seirck1',res,1);
+      createCookie('sirck1',res,1);
       }
       return(res)
       };
@@ -312,8 +312,8 @@
 	      <br/>
 	      <center>Initial Values</center>
 	      &nbsp;&nbsp;<table><tr><td>Susceptible:</td><td><input type="text" name="initialS" id="button7" size = 10 /></td></tr>
-	      <tr><td>Exposed: </td><td><input type="text" name="initialI" id="button8" size = 10 /></td></tr>
-	      <tr><td>Infected: </td><td><input type="text" name="initialR" id="button9" size = 10 /></td></tr>
+	      <tr><td>Infected: </td><td><input type="text" name="initialI" id="button8" size = 10 /></td></tr>
+	      <tr><td>Recovered: </td><td><input type="text" name="initialR" id="button9" size = 10 /></td></tr>
 	    </table>
 	    <br/>
 	    Days: <input type="text" name="days" id="button10" size = 6 /><br/>
