@@ -170,7 +170,7 @@
     var deltemp = -Math.log(1 - pv[3]/100)/365;
     var deldtemp = -Math.log(1 - pv[4]/100)/14;
 	
-	var valu = rk4(sir,[pv[0]/pv[1], 
+	var valu = rk4(sir,[pv[0]*(deldtemp+1/pv[1]), 
 	                    1/pv[1], mutemp, deltemp, deldtemp, pv[5]],
 						dt,
 						[0,pv[6],pv[7],pv[8],pv[9]],iters);
