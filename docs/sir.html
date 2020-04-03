@@ -249,9 +249,9 @@
 	var data3max = d4max;
 	var data4min = d5min;
 	var data4max = d5max;
-	$.plot($("#placeholder1"), data1, {yaxis: {min: data1min - 0.1*(data1max-data1min), max: data1max + 0.5*(data1max-data1min)}}); 
+	$.plot($("#placeholder1"), data1, {yaxis: {min: data1min - 0.1*(data1max-data1min), max: data1max + 0.5*(data1max-data1min), tickFormatter: (function formatter(val) {return val + "%"})}}); 
     $.plot($("#placeholder2"), data2, {yaxis: {min: data2min - 0.1*(data2max-data2min), max: data2max + 0.5*(data2max-data2min), tickFormatter: (function formatter(val) {return val + "%"})}}); 
-	$.plot($("#placeholder3"), data3, {yaxis: {min: data3min - 0.1*(data3max-data3min), max: data3max + 0.5*(data3max-data3min), tickFormatter: (function formatter(val) {return val + "%"})}});
+	$.plot($("#placeholder3"), data3, {yaxis: {min: data3min - 0.1*(data3max-data3min), max: data3max + 0.5*(data3max-data3min)}});
 	$.plot($("#placeholder4"), data4, {yaxis: {min: data4min - 0.1*(data4max-data4min), max: data4max + 0.5*(data4max-data4min)}});
 	});
       </script>
