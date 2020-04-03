@@ -29,15 +29,15 @@
       var res = new Array();
       res[0] = 2.2; //R0, related to beta, and gamma and sigma
       res[1] = 2.3; //RecTime, related to gamma
-      res[3] = 1.85; //Math.log(1 + 0.0185)/365; 
-      res[4] = 0.78; //Math.log(1 + 0.0078)/365;   
-      res[5] = 1; //Math.log(1 + 0.01)/14;   //death rate from infection
-      res[6] = 0;   //vaccine 
-      res[7] = 7500000000;  //iSusceptible
-      res[8] = 1;   //iInfected
-      res[10] = 0;   //iRecovered
-      res[11] = 0;  //Initial dead
-      res[12] = 300; //numberdays
+      res[2] = 1.85; //Birth rate Math.log(1 + 0.0185)/365; 
+      res[3] = 0.78; //Death rate Math.log(1 + 0.0078)/365;   
+      res[4] = 1; //Death rate from disease Math.log(1 + 0.01)/14;   //death rate from infection
+      res[5] = 0;   //vaccine 
+      res[6] = 7500000000;  //iSusceptible
+      res[7] = 1;   //iInfected
+      res[8] = 0;   //iRecovered
+      res[9] = 0;  //Initial dead
+      res[10] = 300; //numberdays
       return res;
       }
 
