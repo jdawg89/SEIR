@@ -147,7 +147,7 @@
       <script id="source" language="javascript" type="text/javascript">
 	<!-- $(function () { -->
         $(document).ready(function() {
-	str = getCookie('seirck1');
+	str = getCookie('sirck1');
 	if (document.cookie.length < 1) {
 	pv = getInitVec();
 	}
@@ -165,7 +165,7 @@
 	document.forms["mainform"].elements["initialR"].value = pv[8];
 	document.forms["mainform"].elements["days"].value = pv[10];
     var iters = 100*Math.min(1000,pv[10]);
-    var dt = (pv[12])/iters;
+    var dt = (pv[10])/iters;
     var mutemp = Math.log(1 + pv[2]/100)/365;
     var deltemp = -Math.log(1 - pv[3]/100)/365;
     var deldtemp = -Math.log(1 - pv[4]/100)/14;
@@ -174,6 +174,7 @@
 	                    1/pv[1], mutemp, deltemp, deldtemp, pv[5]],
 						dt,
 						[0,pv[6],pv[7],pv[8],pv[9]],iters);
+						
 	var d1 = valu[1];
 	var d2 = valu[2];
 	var d3 = valu[3];
