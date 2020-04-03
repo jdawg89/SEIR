@@ -8,7 +8,7 @@
     <script language="javascript" type="text/javascript" src="scripts/odesim.js"> </script>
 
     <script type="text/javascript">
-      function seir(x,parm)
+      function sir(x,parm)
       {
       return([parm[2]*(x[0]+x[1]+x[2]) - parm[0]*x[1]*x[0]/(x[0]+x[1]+x[2]) - (parm[5] + parm[3])*x[0],
       parm[0]*x[1]*x[0]/(x[0]+x[1]+x[2]) - (parm[1] + parm[4])*x[1], 
@@ -170,7 +170,7 @@
     var deltemp = -Math.log(1 - pv[3]/100)/365;
     var deldtemp = -Math.log(1 - pv[4]/100)/14;
 	
-	var valu = rk4(seir,[pv[0]*pv[1], 
+	var valu = rk4(sir,[pv[0]*pv[1], 
 	                    1/pv[1], mutemp, deltemp, deldtemp, pv[5]],
 						dt,
 						[0,pv[6],pv[7],pv[8],pv[9]],iters);
